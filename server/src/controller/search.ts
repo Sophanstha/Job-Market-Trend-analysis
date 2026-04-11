@@ -83,50 +83,126 @@ export const search = async (req: AuthRequest, res: Response) => {
   }
 };
 
-export const compare = async(req:AuthRequest,res:Response):Promise<void>=>{
-    try {
-        const {a,b} = req.query;
+export const compare = async (req: AuthRequest, res: Response): Promise<void> => {
+  try {
+    const { a, b } = req.query;
+
     if (!a || !b) {
-      res.status(400).json({ message: "Provide two categories: ?a=ai&b=cloud" });
+      res.status(400).json({ 
+        message: "Provide two jobs: ?a=ai&b=cloud or ?a=software engineer&b=data scientist" 
+      });
       return;
     }
-   const jobA = await JobData.findOne({category : a as string}) 
-    const jobB = await JobData.findOne({ category: b as string });
-      if (!jobA || !jobB) {
-        res.status(404).json({ message: "One or both categories not found" });
-        return;
-      }    
-    const demandA = calculateDemandSccore(jobA);
-      const demandB = calculateDemandSccore(jobB);
 
-     res.status(200).json({
-        success : true,
-        comparsion :{
-            categoryA:{
-            title : jobA.title,
-            category:      jobA.category,
-            demand:        demandA,
-            averageSalary: jobA.averageSalary,
-            growthRate:    jobA.growthRate,
-            trend:         jobA.trend,
-            topSkills:     jobA.topSkills,
-            }
-        },
-           categoryB: {
-            title:         jobB.title,
-            category:      jobB.category,
-            demand:        demandB,
-            averageSalary: jobB.averageSalary,
-            growthRate:    jobB.growthRate,
-            trend:         jobB.trend,
-            topSkills:     jobB.topSkills,
-          },
-          winner : demandA.score > demandB.score ? jobA.title : jobB.title ,
-          salaryDiff : Math.abs(jobA.averageSalary - jobB.averageSalary),
-          growthDiff : Math.abs(jobA.growthRate = jobB.growthRate)
-          
-     })
-    } catch (error) {
-         res.status(500).json({ message: (error as Error).message });
+    // ── Search by category OR title (case-insensitive) ────────
+    const findJob = async (query: string) => {
+      const q = query.trim().toLowerCase();
+
+      // First try exact category match
+      const byCategory = await JobData.findOne({
+        category: { $regex: `^${q}$`, $options: "i" },
+      });
+      if (byCategory) return byCategory;
+
+      // Then try partial title match
+      const byTitle = await JobData.findOne({
+        title: { $regex: q, $options: "i" },
+      });
+      if (byTitle) return byTitle;
+
+      // Finally try keyword match
+      const byKeyword = await JobData.findOne({
+        keywords: { $elemMatch: { $regex: q, $options: "i" } },
+      });
+      return byKeyword;
+    };
+
+    const jobA = await findJob(a as string);
+    const jobB = await findJob(b as string);
+
+    // ── Detailed not found message ────────────────────────────
+    if (!jobA && !jobB) {
+      res.status(404).json({ 
+        message: `Neither "${a}" nor "${b}" found. Try: ai, software, data, cybersecurity, cloud, healthcare, finance, remote, green, design` 
+      });
+      return;
     }
-}
+    if (!jobA) {
+      res.status(404).json({ 
+        message: `"${a}" not found. Try: ai, software, data, cybersecurity, cloud` 
+      });
+      return;
+    }
+    if (!jobB) {
+      res.status(404).json({ 
+        message: `"${b}" not found. Try: ai, software, data, cybersecurity, cloud` 
+      });
+      return;
+    }
+
+    // ── Prevent comparing same job ────────────────────────────
+    if (jobA.category === jobB.category) {
+      res.status(400).json({ 
+        message: "Both queries matched the same category. Try different jobs." 
+      });
+      return;
+    }
+
+    // ── Calculate demand scores ───────────────────────────────
+    const demandA = calculateDemandSccore(jobA);
+    const demandB = calculateDemandSccore(jobB);
+
+    // ── Determine winner per metric ───────────────────────────
+    const higherSalary  = jobA.averageSalary  >= jobB.averageSalary  ? "A" : "B";
+    const higherGrowth  = jobA.growthRate     >= jobB.growthRate     ? "A" : "B";
+    const higherDemand  = demandA.score       >= demandB.score       ? "A" : "B";
+    const higherRemote  = jobA.remoteAvailability >= jobB.remoteAvailability ? "A" : "B";
+
+    res.status(200).json({
+      success: true,
+      comparison: {
+        categoryA: {
+          title:              jobA.title,
+          category:           jobA.category,
+          demand:             demandA,
+          averageSalary:      jobA.averageSalary,
+          entryLevelSalary:   jobA.entryLevelSalary,
+          seniorLevelSalary:  jobA.seniorLevelSalary,
+          growthRate:         jobA.growthRate,
+          trend:              jobA.trend,
+          topSkills:          jobA.topSkills,
+          remoteAvailability: jobA.remoteAvailability,
+          jobOpenings:        jobA.jobOpenings,
+        },
+        categoryB: {
+          title:              jobB.title,
+          category:           jobB.category,
+          demand:             demandB,
+          averageSalary:      jobB.averageSalary,
+          entryLevelSalary:   jobB.entryLevelSalary,
+          seniorLevelSalary:  jobB.seniorLevelSalary,
+          growthRate:         jobB.growthRate,
+          trend:              jobB.trend,
+          topSkills:          jobB.topSkills,
+          remoteAvailability: jobB.remoteAvailability,
+          jobOpenings:        jobB.jobOpenings,
+        },
+        winner: {
+          overall:    demandA.score >= demandB.score ? jobA.title : jobB.title,
+          salary:     higherSalary  === "A" ? jobA.title : jobB.title,
+          growth:     higherGrowth  === "A" ? jobA.title : jobB.title,
+          demand:     higherDemand  === "A" ? jobA.title : jobB.title,
+          remote:     higherRemote  === "A" ? jobA.title : jobB.title,
+        },
+        differences: {
+          salaryDiff: Math.abs(jobA.averageSalary      - jobB.averageSalary),
+          growthDiff: Math.abs(jobA.growthRate         - jobB.growthRate),
+          demandDiff: Math.abs(demandA.score           - demandB.score),
+          remoteDiff: Math.abs(jobA.remoteAvailability - jobB.remoteAvailability),
+        },
+      },
+    });
+  } catch (error) {
+    res.status(500).json({ message: (error as Error).message });
+  }
+};

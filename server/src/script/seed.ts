@@ -2,7 +2,8 @@ import dotenv from "dotenv"
 import mongoose from "mongoose";
 import JobData from "../models/JobData.model.ts";
 // import jobDataJson from "../data/jobData.js" 
-import {jsonData} from "../data/jobData.ts"
+// import {jsonData} from "../data/jobData.ts"
+import jsonData from "../data/jobData.ts";
 dotenv.config()
 const seed = async():Promise<void> =>{
     try {
