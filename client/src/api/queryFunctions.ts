@@ -3,7 +3,7 @@ import api from "./axios";
 
 
 export const searchJobFn = async(query:string):Promise<SearchResponse>=>{
-    const {data}= await api.post<SearchResponse>("search/search",query)
+    const {data}= await api.post<SearchResponse>("search/search",{query})
     return data
 }
 

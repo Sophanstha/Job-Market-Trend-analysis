@@ -9,11 +9,16 @@ import authRouter from "./router/authRouter.ts"
 import searchRouter from "./router/searchRoute.ts"
 import HistoryRouter from "./router/history.ts"
 import analysisRouter from "./router/analysis.ts"
-
+import cors from "cors"
 dotenv.config()
 
 const app = express();
-
+app.use(
+  cors({
+    origin: "http://localhost:5173",
+    credentials: true, // if using cookies/auth
+  })
+);
 // Middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));

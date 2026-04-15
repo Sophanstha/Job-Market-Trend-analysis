@@ -5,12 +5,12 @@ import rankJobsByQuery from "../algorithms/tfitdf.ts";
 import { calculateDemandSccore } from "../algorithms/demandScore.ts.ts";
 import { getRecommendations } from "../algorithms/recommend.ts";
 import SearchHistory from "../models/SearchHistory.ts";
-import mongoose from "mongoose";
-import { title } from "node:process";
+
 
 export const search = async (req: AuthRequest, res: Response) => {
   try {
     const { query } = req.body;
+    console.log(query)
     //  Load all jobs from MongoDB
     const allJobs = await JobData.find({});
     if (!JobData) {

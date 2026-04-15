@@ -8,13 +8,14 @@ const trending = async(req:Request , res:Response)=>{
         const sevenDayago = new Date()
         sevenDayago.setDate(sevenDayago.getDate() - 7)
 
-    const trending = await SearchHistory.aggregate([
-        {$match : {createdAt : {$gte : sevenDayago}}},
-        {$group : {_id :"$topResilt",count : {$sum : 1}}},
-        {$sort : {count : -1}},
-        {$limit : 5},
-        {$project : {_id : 0,title : "$_id",searchCount : "$count"}}
-    ])
+ const trending = await SearchHistory.aggregate([
+  { $match: { createdAt: { $gte: sevenDayago } } },
+  { $group: { _id: "$topResult", count: { $sum: 1 } } }, // ✅ FIX
+  { $sort: { count: -1 } },
+  { $limit: 5 },
+  { $project: { _id: 0, title: "$_id", searchCount: "$count" } }
+]);
+    console.log("trending : ",trending)
 
     const totalSearches = await SearchHistory.countDocuments({
         createdAt : {$gte : sevenDayago}
@@ -31,8 +32,8 @@ const trending = async(req:Request , res:Response)=>{
         success:true,
          period: "Last 7 days",
          totalSearches,
-         trrndingSearch : trending,
-         topDemand:topDemand 
+        trendingSearches: trending,
+         topDemandJobs:topDemand 
     })
 
     } catch (error) {

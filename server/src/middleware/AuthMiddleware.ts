@@ -39,5 +39,33 @@ const protect = async (
   }
 };
 
+export const optionalAuth = async (
+  req: AuthRequest,
+  res: Response,
+  next: NextFunction
+): Promise<void> => {
+  const authHeader = req.headers.authorization;
+
+  if (!authHeader?.startsWith("Bearer ")) {
+    return next();
+  }
+
+  try {
+    const token = authHeader.split(" ")[1];
+    const decoded = jwt.verify(
+      token,
+      process.env.JWT_SECRET as string
+    ) as JwtPayload;
+
+    const user = await User.findById(decoded.id).select("-password");
+    if (user) req.user = user;
+  } catch {
+    // Invalid token — just skip, do not block
+  }
+
+  next();
+};
+
+
 export default protect
 // optional Auth 

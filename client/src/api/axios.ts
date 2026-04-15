@@ -13,15 +13,23 @@ api.interceptors.request.use((config)=>{
 })
 
 api.interceptors.response.use(
-(response)=>response,
-(error)=>{
-       if (error.response?.status === 401) {
+  (response) => response,
+  (error) => {
+    const isAuthRoute = error.config?.url?.includes("/auth/");
+    const isHistoryRoute = error.config?.url?.includes("/history");
+
+    // Only redirect to login for protected routes — not search
+    if (
+      error.response?.status === 401 &&
+      (isAuthRoute || isHistoryRoute)
+    ) {
       localStorage.removeItem("token");
       localStorage.removeItem("user");
       window.location.href = "/login";
     }
-    return Promise.reject(error)
-}
+
+    return Promise.reject(error);
+  }
 )
 
 export default api
