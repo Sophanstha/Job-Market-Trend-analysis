@@ -1,0 +1,201 @@
+Job_ID,Role,Company,Location,Required_Skill,Experience_Level,Salary_LPA,Remote_Option,Posting_Year
+JOB2026_1,Cloud Engineer,Flipkart,Delhi,Machine Learning,5+ Years,16,Yes,2026
+JOB2026_2,Machine Learning Engineer,Amazon,Bangalore,Machine Learning,5+ Years,4,Yes,2026
+JOB2026_3,Cloud Engineer,Google,Noida,Deep Learning,2-5 Years,22,No,2026
+JOB2026_4,Cloud Engineer,Flipkart,Bangalore,Python,Fresher,29,No,2026
+JOB2026_5,Cyber Security Analyst,Accenture,Chennai,Power BI,2-5 Years,22,No,2026
+JOB2026_6,DevOps Engineer,Google,Chennai,Python,Fresher,6,Yes,2026
+JOB2026_7,Full Stack Developer,Flipkart,Chennai,AWS,0-2 Years,27,No,2026
+JOB2026_8,AI Engineer,Meta,Bangalore,Deep Learning,5+ Years,11,Yes,2026
+JOB2026_9,Software Engineer,OpenAI,Delhi,Azure,0-2 Years,25,No,2026
+JOB2026_10,Software Engineer,Meta,Pune,SQL,5+ Years,32,No,2026
+JOB2026_11,DevOps Engineer,Flipkart,Delhi,React,5+ Years,8,Yes,2026
+JOB2026_12,Software Engineer,Netflix,Delhi,AWS,0-2 Years,32,Yes,2026
+JOB2026_13,Cloud Engineer,OpenAI,Delhi,Azure,0-2 Years,31,Yes,2026
+JOB2026_14,DevOps Engineer,Google,Bangalore,Docker,5+ Years,34,No,2026
+JOB2026_15,Software Engineer,Amazon,Noida,SQL,2-5 Years,29,Yes,2026
+JOB2026_16,Data Analyst,Netflix,Remote,Deep Learning,0-2 Years,27,No,2026
+JOB2026_17,Full Stack Developer,Flipkart,Bangalore,Deep Learning,Fresher,18,No,2026
+JOB2026_18,DevOps Engineer,TCS,Mumbai,Deep Learning,0-2 Years,35,Yes,2026
+JOB2026_19,Software Engineer,Netflix,Hyderabad,Machine Learning,0-2 Years,34,Yes,2026
+JOB2026_20,Software Engineer,Google,Hyderabad,SQL,5+ Years,13,Yes,2026
+JOB2026_21,Machine Learning Engineer,OpenAI,Pune,SQL,0-2 Years,17,Yes,2026
+JOB2026_22,Cloud Engineer,Flipkart,Noida,Kubernetes,Fresher,13,No,2026
+JOB2026_23,AI Engineer,Flipkart,Mumbai,Azure,2-5 Years,13,Yes,2026
+JOB2026_24,DevOps Engineer,Amazon,Remote,AWS,0-2 Years,29,Yes,2026
+JOB2026_25,Data Analyst,Infosys,Remote,Machine Learning,Fresher,24,Yes,2026
+JOB2026_26,Cyber Security Analyst,Google,Remote,Deep Learning,Fresher,17,Yes,2026
+JOB2026_27,Data Analyst,Infosys,Noida,Power BI,0-2 Years,32,Yes,2026
+JOB2026_28,Cloud Engineer,Accenture,Bangalore,Azure,0-2 Years,14,No,2026
+JOB2026_29,Software Engineer,OpenAI,Mumbai,Kubernetes,0-2 Years,34,No,2026
+JOB2026_30,Cloud Engineer,Infosys,Delhi,Python,Fresher,12,Yes,2026
+JOB2026_31,DevOps Engineer,Google,Delhi,Power BI,Fresher,15,Yes,2026
+JOB2026_32,Cyber Security Analyst,Flipkart,Noida,Python,Fresher,15,No,2026
+JOB2026_33,Data Analyst,Accenture,Chennai,Docker,Fresher,22,Yes,2026
+JOB2026_34,Cloud Engineer,TCS,Pune,SQL,5+ Years,15,No,2026
+JOB2026_35,Cloud Engineer,Flipkart,Noida,Python,5+ Years,13,Yes,2026
+JOB2026_36,Cloud Engineer,Infosys,Remote,React,0-2 Years,35,No,2026
+JOB2026_37,AI Engineer,Flipkart,Mumbai,Power BI,0-2 Years,13,No,2026
+JOB2026_38,AI Engineer,Microsoft,Pune,Kubernetes,Fresher,30,No,2026
+JOB2026_39,Cloud Engineer,Amazon,Noida,Azure,Fresher,24,Yes,2026
+JOB2026_40,Software Engineer,Google,Noida,React,0-2 Years,15,No,2026
+JOB2026_41,DevOps Engineer,Flipkart,Pune,Machine Learning,0-2 Years,11,Yes,2026
+JOB2026_42,Software Engineer,Netflix,Hyderabad,AWS,0-2 Years,20,Yes,2026
+JOB2026_43,Machine Learning Engineer,TCS,Pune,Power BI,0-2 Years,31,Yes,2026
+JOB2026_44,Data Analyst,Netflix,Pune,Power BI,Fresher,31,Yes,2026
+JOB2026_45,Software Engineer,Netflix,Delhi,Python,0-2 Years,19,Yes,2026
+JOB2026_46,Software Engineer,Accenture,Remote,Python,5+ Years,17,No,2026
+JOB2026_47,Cloud Engineer,Amazon,Pune,Deep Learning,0-2 Years,13,Yes,2026
+JOB2026_48,Full Stack Developer,TCS,Chennai,Azure,0-2 Years,35,Yes,2026
+JOB2026_49,Software Engineer,Netflix,Chennai,Power BI,0-2 Years,18,Yes,2026
+JOB2026_50,AI Engineer,Flipkart,Bangalore,SQL,Fresher,32,Yes,2026
+JOB2026_51,Full Stack Developer,Flipkart,Pune,SQL,0-2 Years,13,Yes,2026
+JOB2026_52,Machine Learning Engineer,Microsoft,Chennai,SQL,0-2 Years,4,No,2026
+JOB2026_53,AI Engineer,Flipkart,Bangalore,AWS,2-5 Years,12,Yes,2026
+JOB2026_54,Cloud Engineer,TCS,Chennai,Kubernetes,0-2 Years,18,Yes,2026
+JOB2026_55,AI Engineer,Microsoft,Delhi,SQL,Fresher,26,Yes,2026
+JOB2026_56,Machine Learning Engineer,Google,Pune,Docker,2-5 Years,17,No,2026
+JOB2026_57,Software Engineer,OpenAI,Delhi,Docker,Fresher,22,Yes,2026
+JOB2026_58,Cloud Engineer,OpenAI,Pune,Power BI,5+ Years,16,No,2026
+JOB2026_59,Machine Learning Engineer,Amazon,Chennai,Deep Learning,0-2 Years,25,No,2026
+JOB2026_60,Data Analyst,Netflix,Bangalore,React,Fresher,30,Yes,2026
+JOB2026_61,Full Stack Developer,Amazon,Mumbai,React,0-2 Years,27,No,2026
+JOB2026_62,DevOps Engineer,Infosys,Bangalore,Docker,5+ Years,31,No,2026
+JOB2026_63,DevOps Engineer,Google,Delhi,Azure,0-2 Years,28,No,2026
+JOB2026_64,DevOps Engineer,Netflix,Mumbai,Power BI,0-2 Years,25,Yes,2026
+JOB2026_65,Full Stack Developer,Microsoft,Pune,SQL,5+ Years,23,Yes,2026
+JOB2026_66,AI Engineer,Meta,Chennai,Python,0-2 Years,7,No,2026
+JOB2026_67,Cyber Security Analyst,Amazon,Remote,Docker,2-5 Years,34,Yes,2026
+JOB2026_68,Cloud Engineer,Google,Remote,Docker,5+ Years,30,No,2026
+JOB2026_69,Cyber Security Analyst,Infosys,Bangalore,Kubernetes,0-2 Years,13,No,2026
+JOB2026_70,DevOps Engineer,OpenAI,Delhi,Azure,2-5 Years,26,Yes,2026
+JOB2026_71,AI Engineer,TCS,Hyderabad,Azure,Fresher,25,No,2026
+JOB2026_72,Machine Learning Engineer,Netflix,Delhi,AWS,5+ Years,29,Yes,2026
+JOB2026_73,Software Engineer,Infosys,Delhi,Power BI,5+ Years,35,No,2026
+JOB2026_74,DevOps Engineer,Netflix,Pune,Docker,Fresher,31,No,2026
+JOB2026_75,Full Stack Developer,Meta,Noida,Machine Learning,Fresher,9,No,2026
+JOB2026_76,Machine Learning Engineer,TCS,Delhi,React,5+ Years,28,Yes,2026
+JOB2026_77,Machine Learning Engineer,Google,Noida,React,2-5 Years,7,No,2026
+JOB2026_78,Software Engineer,Meta,Pune,React,5+ Years,14,Yes,2026
+JOB2026_79,Software Engineer,Amazon,Bangalore,Docker,2-5 Years,27,No,2026
+JOB2026_80,Cloud Engineer,Netflix,Mumbai,Power BI,5+ Years,21,No,2026
+JOB2026_81,Machine Learning Engineer,Netflix,Remote,React,5+ Years,10,No,2026
+JOB2026_82,Data Analyst,Amazon,Delhi,Azure,5+ Years,16,Yes,2026
+JOB2026_83,DevOps Engineer,Amazon,Mumbai,Kubernetes,5+ Years,20,No,2026
+JOB2026_84,DevOps Engineer,Infosys,Noida,Kubernetes,2-5 Years,5,Yes,2026
+JOB2026_85,Cyber Security Analyst,TCS,Hyderabad,React,0-2 Years,22,No,2026
+JOB2026_86,AI Engineer,Netflix,Remote,Azure,2-5 Years,32,No,2026
+JOB2026_87,AI Engineer,Accenture,Bangalore,AWS,0-2 Years,10,No,2026
+JOB2026_88,Data Analyst,Flipkart,Delhi,AWS,5+ Years,30,No,2026
+JOB2026_89,DevOps Engineer,Flipkart,Hyderabad,Kubernetes,Fresher,30,No,2026
+JOB2026_90,Software Engineer,OpenAI,Pune,Azure,0-2 Years,22,No,2026
+JOB2026_91,Cloud Engineer,Netflix,Delhi,Python,0-2 Years,24,Yes,2026
+JOB2026_92,Data Analyst,Accenture,Chennai,Power BI,5+ Years,7,Yes,2026
+JOB2026_93,Machine Learning Engineer,TCS,Chennai,React,5+ Years,27,Yes,2026
+JOB2026_94,Machine Learning Engineer,Google,Remote,Python,Fresher,17,No,2026
+JOB2026_95,Full Stack Developer,Netflix,Chennai,Power BI,5+ Years,23,No,2026
+JOB2026_96,Cyber Security Analyst,Microsoft,Bangalore,SQL,0-2 Years,16,No,2026
+JOB2026_97,Machine Learning Engineer,Flipkart,Remote,Azure,0-2 Years,34,No,2026
+JOB2026_98,Data Analyst,TCS,Delhi,Power BI,2-5 Years,20,Yes,2026
+JOB2026_99,Machine Learning Engineer,Infosys,Bangalore,Azure,0-2 Years,31,Yes,2026
+JOB2026_100,Cyber Security Analyst,Flipkart,Chennai,React,0-2 Years,35,No,2026
+JOB2026_101,Full Stack Developer,Infosys,Noida,AWS,Fresher,14,No,2026
+JOB2026_102,DevOps Engineer,Amazon,Bangalore,Power BI,Fresher,34,Yes,2026
+JOB2026_103,Cyber Security Analyst,Google,Mumbai,Power BI,Fresher,28,No,2026
+JOB2026_104,Cyber Security Analyst,Accenture,Bangalore,Kubernetes,0-2 Years,35,Yes,2026
+JOB2026_105,Cloud Engineer,Amazon,Remote,Deep Learning,2-5 Years,34,Yes,2026
+JOB2026_106,Cloud Engineer,Netflix,Mumbai,React,2-5 Years,25,No,2026
+JOB2026_107,DevOps Engineer,TCS,Chennai,Azure,0-2 Years,22,No,2026
+JOB2026_108,Machine Learning Engineer,Amazon,Hyderabad,Python,0-2 Years,14,No,2026
+JOB2026_109,Software Engineer,TCS,Pune,Kubernetes,5+ Years,16,Yes,2026
+JOB2026_110,DevOps Engineer,OpenAI,Bangalore,Python,Fresher,24,No,2026
+JOB2026_111,Machine Learning Engineer,Infosys,Bangalore,Deep Learning,2-5 Years,20,Yes,2026
+JOB2026_112,DevOps Engineer,Amazon,Noida,Power BI,Fresher,19,Yes,2026
+JOB2026_113,Full Stack Developer,OpenAI,Mumbai,Deep Learning,0-2 Years,14,No,2026
+JOB2026_114,DevOps Engineer,Netflix,Noida,Deep Learning,0-2 Years,30,No,2026
+JOB2026_115,Software Engineer,Amazon,Delhi,Azure,Fresher,32,Yes,2026
+JOB2026_116,Software Engineer,Meta,Hyderabad,React,5+ Years,11,Yes,2026
+JOB2026_117,AI Engineer,Microsoft,Pune,AWS,Fresher,28,Yes,2026
+JOB2026_118,AI Engineer,Flipkart,Hyderabad,React,0-2 Years,30,Yes,2026
+JOB2026_119,AI Engineer,Flipkart,Delhi,Power BI,0-2 Years,15,Yes,2026
+JOB2026_120,AI Engineer,Netflix,Remote,AWS,2-5 Years,28,No,2026
+JOB2026_121,Cloud Engineer,Accenture,Delhi,Deep Learning,5+ Years,5,Yes,2026
+JOB2026_122,Cloud Engineer,Infosys,Mumbai,Kubernetes,Fresher,24,No,2026
+JOB2026_123,Cloud Engineer,Flipkart,Noida,Power BI,2-5 Years,21,No,2026
+JOB2026_124,AI Engineer,Infosys,Noida,Machine Learning,Fresher,7,No,2026
+JOB2026_125,DevOps Engineer,Accenture,Delhi,Python,0-2 Years,27,Yes,2026
+JOB2026_126,DevOps Engineer,Microsoft,Pune,Docker,Fresher,11,Yes,2026
+JOB2026_127,Full Stack Developer,Google,Mumbai,Kubernetes,2-5 Years,27,Yes,2026
+JOB2026_128,Software Engineer,Flipkart,Mumbai,Docker,Fresher,22,No,2026
+JOB2026_129,DevOps Engineer,Google,Mumbai,Docker,0-2 Years,32,Yes,2026
+JOB2026_130,Cloud Engineer,Microsoft,Mumbai,Machine Learning,Fresher,26,No,2026
+JOB2026_131,Full Stack Developer,Meta,Pune,Kubernetes,Fresher,22,Yes,2026
+JOB2026_132,Full Stack Developer,Infosys,Chennai,Power BI,Fresher,26,Yes,2026
+JOB2026_133,Cloud Engineer,TCS,Noida,SQL,Fresher,35,Yes,2026
+JOB2026_134,AI Engineer,OpenAI,Remote,AWS,2-5 Years,21,No,2026
+JOB2026_135,Cloud Engineer,Infosys,Delhi,Azure,5+ Years,33,No,2026
+JOB2026_136,Cyber Security Analyst,Accenture,Chennai,Python,2-5 Years,29,No,2026
+JOB2026_137,Data Analyst,Amazon,Remote,Machine Learning,5+ Years,5,Yes,2026
+JOB2026_138,DevOps Engineer,Infosys,Delhi,Azure,0-2 Years,32,No,2026
+JOB2026_139,AI Engineer,Amazon,Hyderabad,AWS,5+ Years,23,No,2026
+JOB2026_140,Software Engineer,Amazon,Hyderabad,Kubernetes,Fresher,32,No,2026
+JOB2026_141,Cloud Engineer,Meta,Bangalore,Machine Learning,0-2 Years,25,No,2026
+JOB2026_142,AI Engineer,Microsoft,Bangalore,AWS,2-5 Years,32,Yes,2026
+JOB2026_143,Cyber Security Analyst,Netflix,Chennai,Azure,5+ Years,16,Yes,2026
+JOB2026_144,Full Stack Developer,Netflix,Pune,Machine Learning,Fresher,12,No,2026
+JOB2026_145,AI Engineer,Flipkart,Pune,Machine Learning,Fresher,7,No,2026
+JOB2026_146,Full Stack Developer,Netflix,Hyderabad,Machine Learning,0-2 Years,24,Yes,2026
+JOB2026_147,Machine Learning Engineer,OpenAI,Hyderabad,Machine Learning,5+ Years,35,Yes,2026
+JOB2026_148,DevOps Engineer,TCS,Chennai,Power BI,Fresher,22,Yes,2026
+JOB2026_149,Software Engineer,Amazon,Chennai,Power BI,0-2 Years,30,No,2026
+JOB2026_150,Full Stack Developer,TCS,Mumbai,AWS,Fresher,17,No,2026
+JOB2026_151,Machine Learning Engineer,Accenture,Pune,Docker,Fresher,33,Yes,2026
+JOB2026_152,Cloud Engineer,Meta,Noida,Machine Learning,Fresher,31,Yes,2026
+JOB2026_153,Data Analyst,Accenture,Bangalore,Kubernetes,2-5 Years,25,Yes,2026
+JOB2026_154,Software Engineer,Amazon,Hyderabad,Kubernetes,5+ Years,18,No,2026
+JOB2026_155,DevOps Engineer,Microsoft,Delhi,React,0-2 Years,17,No,2026
+JOB2026_156,Cyber Security Analyst,Accenture,Mumbai,SQL,5+ Years,4,Yes,2026
+JOB2026_157,DevOps Engineer,Meta,Hyderabad,Power BI,2-5 Years,12,Yes,2026
+JOB2026_158,Cloud Engineer,Flipkart,Delhi,AWS,Fresher,27,No,2026
+JOB2026_159,Full Stack Developer,OpenAI,Mumbai,AWS,5+ Years,30,Yes,2026
+JOB2026_160,Machine Learning Engineer,Microsoft,Chennai,Kubernetes,0-2 Years,17,No,2026
+JOB2026_161,Full Stack Developer,Flipkart,Mumbai,Python,5+ Years,25,Yes,2026
+JOB2026_162,Full Stack Developer,Flipkart,Noida,Deep Learning,0-2 Years,6,No,2026
+JOB2026_163,Software Engineer,Microsoft,Delhi,Deep Learning,2-5 Years,8,No,2026
+JOB2026_164,Cyber Security Analyst,Amazon,Hyderabad,AWS,Fresher,16,Yes,2026
+JOB2026_165,Data Analyst,TCS,Noida,Deep Learning,Fresher,12,No,2026
+JOB2026_166,Data Analyst,Infosys,Noida,Machine Learning,0-2 Years,24,No,2026
+JOB2026_167,Machine Learning Engineer,Infosys,Bangalore,Deep Learning,Fresher,5,Yes,2026
+JOB2026_168,Cloud Engineer,Microsoft,Chennai,Deep Learning,0-2 Years,30,Yes,2026
+JOB2026_169,Software Engineer,Microsoft,Mumbai,Python,0-2 Years,23,Yes,2026
+JOB2026_170,Cyber Security Analyst,Microsoft,Bangalore,SQL,5+ Years,35,No,2026
+JOB2026_171,Data Analyst,TCS,Hyderabad,SQL,5+ Years,30,No,2026
+JOB2026_172,Machine Learning Engineer,Amazon,Hyderabad,React,5+ Years,22,Yes,2026
+JOB2026_173,Data Analyst,Accenture,Chennai,SQL,0-2 Years,15,Yes,2026
+JOB2026_174,DevOps Engineer,TCS,Chennai,SQL,Fresher,8,No,2026
+JOB2026_175,Software Engineer,Flipkart,Chennai,Python,0-2 Years,7,No,2026
+JOB2026_176,Full Stack Developer,Google,Hyderabad,Kubernetes,2-5 Years,34,Yes,2026
+JOB2026_177,Data Analyst,Infosys,Remote,React,2-5 Years,24,No,2026
+JOB2026_178,Software Engineer,Infosys,Bangalore,React,0-2 Years,32,Yes,2026
+JOB2026_179,Cyber Security Analyst,Amazon,Noida,Deep Learning,Fresher,24,No,2026
+JOB2026_180,Cloud Engineer,Microsoft,Chennai,SQL,Fresher,19,No,2026
+JOB2026_181,Cyber Security Analyst,Flipkart,Delhi,Power BI,5+ Years,9,Yes,2026
+JOB2026_182,DevOps Engineer,Accenture,Delhi,Docker,2-5 Years,16,Yes,2026
+JOB2026_183,DevOps Engineer,OpenAI,Pune,AWS,2-5 Years,17,No,2026
+JOB2026_184,Data Analyst,Accenture,Chennai,Power BI,0-2 Years,4,Yes,2026
+JOB2026_185,Cyber Security Analyst,Google,Hyderabad,React,Fresher,25,No,2026
+JOB2026_186,DevOps Engineer,Accenture,Mumbai,AWS,2-5 Years,4,Yes,2026
+JOB2026_187,Data Analyst,TCS,Delhi,Machine Learning,Fresher,31,Yes,2026
+JOB2026_188,AI Engineer,Accenture,Delhi,Azure,Fresher,18,Yes,2026
+JOB2026_189,AI Engineer,Infosys,Remote,Python,5+ Years,22,Yes,2026
+JOB2026_190,DevOps Engineer,Netflix,Pune,Deep Learning,5+ Years,31,No,2026
+JOB2026_191,Cloud Engineer,Infosys,Pune,Python,5+ Years,11,Yes,2026
+JOB2026_192,Cyber Security Analyst,Google,Hyderabad,SQL,Fresher,9,Yes,2026
+JOB2026_193,Machine Learning Engineer,Amazon,Mumbai,Azure,Fresher,8,Yes,2026
+JOB2026_194,Full Stack Developer,TCS,Bangalore,Python,Fresher,21,No,2026
+JOB2026_195,Data Analyst,Flipkart,Chennai,Azure,2-5 Years,15,No,2026
+JOB2026_196,Machine Learning Engineer,Flipkart,Bangalore,React,2-5 Years,17,Yes,2026
+JOB2026_197,DevOps Engineer,Microsoft,Pune,React,0-2 Years,6,Yes,2026
+JOB2026_198,Data Analyst,Meta,Mumbai,React,2-5 Years,20,No,2026
+JOB2026_199,Full Stack Developer,Infosys,Delhi,Power BI,Fresher,22,No,2026
+JOB2026_200,Cloud Engineer,Amazon,Remote,React,2-5 Years,33,Yes,2026

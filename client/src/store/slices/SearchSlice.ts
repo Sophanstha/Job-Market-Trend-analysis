@@ -9,7 +9,6 @@ interface SearchState {
 const initialState: SearchState = {
   data: null,
   query: "",
-  // recentQueries : JSON.parse("recentQueries") || "[]"
   recentQueries: JSON.parse(localStorage.getItem("recentQueries") || "[]"),
 };
 const searchSlice = createSlice({
@@ -19,15 +18,6 @@ const searchSlice = createSlice({
     searchQuery: (state, action: PayloadAction<string>) => {
       state.query = action.payload;
     },
-    // setSearchResult(state, action: PayloadAction<SearchResponse>) {
-    //   state.data = action.payload;
-    //   const updated = [
-    //     state.query,
-    //     ...state.recentQueries.filter((q) => q !== state.query),
-    //   ].slice(0, 5);
-    //   ((state.recentQueries = updated),
-    //     localStorage.setItem("recentQueries", JSON.stringify(updated)));
-    // },
     setSearchResult(state, action: PayloadAction<SearchResponse>) {
       state.data = action.payload;
 

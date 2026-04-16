@@ -16,7 +16,7 @@ export const UseSearch =()=>{
          naviagete("/results")
         }
     })
-    console.log(mutation)
+    // console.log(mutation)
     const search = (query:string)=>{
            if (!query.trim()) return;
     mutation.mutate(query.trim());

@@ -4,6 +4,7 @@ import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
 import Footer from './components/ui/Footer'
 import Navbar from './components/ui/Navbar'
 import Home from './components/pages/Home'
+import SearchResults from './components/pages/SearchResults'
 
 const PrivateRoute = ({children}:{children:React.ReactNode})=>{
   const {token} = useAppSelector((s)=>s.auth)
@@ -34,7 +35,7 @@ const App = () => {
         <main className="flex-1">
           <Routes>
             <Route path="/"          element={<Home/>}/>
-            <Route path="/results"   element={<Placeholder name="Search Results" />} />
+            <Route path="/results"   element={<SearchResults/>} />
             <Route path="/compare"   element={<Placeholder name="Compare" />} />
             <Route path="/analytics" element={<Placeholder name="Analytics" />} />
             <Route path="/login"     element={<Placeholder name="Login" />} />
