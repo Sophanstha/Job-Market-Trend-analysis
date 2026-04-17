@@ -7,7 +7,7 @@ import { logout } from "../../store/slices/AuthSlice";
 
 const Navbar = () => {
   const dispatch = useAppDispatch();
-  const { User } = useAppSelector((v) => v.auth);
+  const { user } = useAppSelector((v) => v.auth);
   const { loading, search } = UseSearch();
   const navigate = useNavigate();
   const [query, setQuery] = useState("");
@@ -99,7 +99,7 @@ const Navbar = () => {
   className="hidden md:flex items-center gap-3"
   >
     {
-      User ? (
+      user ? (
           <div className="flex items-center gap-4">
               <div
                 className="flex items-center gap-2 text-sm"
@@ -112,7 +112,7 @@ const Navbar = () => {
                     className="font-medium"
                     style={{ color: "var(--color-on-surface)" }}
                   >
-                    {User.name.split(" ")[0]}
+                    {user.name.split(" ")[0]}
                   </span>
                 </span>
               </div>
@@ -208,14 +208,14 @@ const Navbar = () => {
           <div className="pt-3 flex gap-3"
             style={{ borderTop: "1px solid rgba(70, 69, 84, 0.2)" }}
           >
-             {User ? (
+             {user ? (
               <>
                 <span
                   className="flex-1 text-sm flex items-center gap-2"
                   style={{ color: "var(--color-on-surface-variant)" }}
                 >
                   <FiUser size={13} />
-                  {User?.name.split(" ")[0]}
+                  {user?.name.split(" ")[0]}
                 </span>
                 <button
                   onClick={handlelogout}
