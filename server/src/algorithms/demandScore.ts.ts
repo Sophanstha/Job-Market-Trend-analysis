@@ -50,22 +50,22 @@ export const calculateDemandSccore = (job: IJobData): DemandResult => {
   let label:          string;
   let interpretation: string;
 
-  if (score >= 85) {
-    label          = "Very High Demand";
-    interpretation = "Excellent career choice. Massive hiring, strong salary, and fast growth. Skills in this area are urgently needed.";
-  } else if (score >= 70) {
-    label          = "High Demand";
-    interpretation = "Strong career choice. Consistent hiring and good salary. Competition exists but opportunities are plentiful.";
-  } else if (score >= 55) {
-    label          = "Moderate Demand";
-    interpretation = "Decent career choice. Steady opportunities but the market is competitive. Specialising helps stand out.";
-  } else if (score >= 40) {
-    label          = "Low Demand";
-    interpretation = "Challenging market. Fewer openings and slower growth. Consider combining with a higher-demand skill set.";
-  } else {
-    label          = "Very Low Demand";
-    interpretation = "Difficult market. Significant challenges in finding roles. Pivot or upskill into an adjacent growing field.";
-  }
+if (score >= 65) {
+  label          = "Very High Demand";
+  interpretation = "Excellent career choice. Massive hiring, strong salary, and fast growth. Skills in this area are urgently needed.";
+} else if (score >= 50) {
+  label          = "High Demand";
+  interpretation = "Strong career choice. Consistent hiring and good salary. Competition exists but opportunities are plentiful.";
+} else if (score >= 38) {
+  label          = "Moderate Demand";
+  interpretation = "Decent career choice. Steady opportunities but the market is competitive. Specialising helps stand out.";
+} else if (score >= 25) {
+  label          = "Low Demand";
+  interpretation = "Challenging market. Fewer openings and slower growth. Consider combining with a higher-demand skill set.";
+} else {
+  label          = "Very Low Demand";
+  interpretation = "Difficult market. Significant challenges in finding roles. Pivot or upskill into an adjacent growing field.";
+}
 
   return {
     score,
@@ -86,7 +86,7 @@ export const rankByDemand = (
   return jobs
     .map((job) => ({
       ...job.toObject(),
-      demandResult: calculateDemandSccore(job),
+      demandResult: calculateDemandSccore(job),  // ← fixed name
     }))
     .sort((a, b) => b.demandResult.score - a.demandResult.score);
 };

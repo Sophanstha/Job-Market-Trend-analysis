@@ -7,7 +7,9 @@ import Home from './components/pages/Home'
 import SearchResults from './components/pages/SearchResults'
 import Login from './components/pages/Login'
 import Regiter from './components/pages/Regiter'
-// import Login from './components/pages/login'
+import Compare from './components/pages/Compare'
+import Analytics from './components/pages/Analytics'
+import History from './components/pages/History'
 
 const PrivateRoute = ({children}:{children:React.ReactNode})=>{
   const {token} = useAppSelector((s)=>s.auth)
@@ -39,15 +41,15 @@ const App = () => {
           <Routes>
             <Route path="/"          element={<Home/>}/>
             <Route path="/results"   element={<SearchResults/>} />
-            <Route path="/compare"   element={<Placeholder name="Compare" />} />
-            <Route path="/analytics" element={<Placeholder name="Analytics" />} />
+            <Route path="/compare"   element={<Compare/>}/>
+            <Route path="/analytics" element={<Analytics/>} />
             <Route path="/login"     element={<Login/>} />
             <Route path="/register"  element={<Regiter/>} />
             <Route
               path="/history"
               element={
                 <PrivateRoute>
-                  <Placeholder name="History" />
+                  <History/>
                 </PrivateRoute>
               }
             />

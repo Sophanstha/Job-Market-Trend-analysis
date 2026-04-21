@@ -26,6 +26,7 @@ const config = {
 };
 const TrendBadge = ({ sizes = "md", trend }: Props) => {
   const currentTrend = config[trend];
+  console.log(currentTrend.bg)
 
   return (
     <span

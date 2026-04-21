@@ -72,6 +72,7 @@ const SearchResults = () => {
       score: job.historicalDemand[idx] ?? 0,
     };
   });
+  console.log(demand.label)
 
   return (
     <div
@@ -152,7 +153,7 @@ const SearchResults = () => {
             />
             <div className="relative z-10 mb-4">
               <DemandRing
-              score={job.demandScore}
+              score={demand.score}
               size={180}
               />
             </div>

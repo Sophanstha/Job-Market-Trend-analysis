@@ -21,6 +21,8 @@ export const deleteHistory = async(req:AuthRequest , res:Response)=>{
     try {
     
     const {id} = req.params ;
+    console.log(id)
+
         
     const entry = await SearchHistory.findOne({
         _id: id ?? null,
@@ -31,6 +33,7 @@ export const deleteHistory = async(req:AuthRequest , res:Response)=>{
         res.status(404).json({ message: "History entry not found" });
         return;
       }
+      await SearchHistory.findByIdAndDelete(id)
       res.status(200).json({
         message : "deleted succefully"
       })

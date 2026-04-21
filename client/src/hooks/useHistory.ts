@@ -21,7 +21,10 @@ export const useHistory =()=>{
         history : history.data ?? [],
         loading : history.isLoading,
         error : history.error?.message ?? null,
-        deleteItem : (id:string)=>deletMutation.mutate(id),
+        deleteItem : (id:string)=>{ 
+            // console.log(id)
+            deletMutation.mutate(id)
+        },
         deleteloading : deletMutation.isPending
     }
 }

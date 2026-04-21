@@ -4,27 +4,26 @@ score:number,
 size?:number
 }
 const getColor = (score: number): string => {
-  if (score >= 85) return "var(--color-secondary)";
-  if (score >= 70) return "var(--color-primary)";
-  if (score >= 55) return "var(--color-tertiary)";
+  if (score >= 65) return "var(--color-secondary)";
+  if (score >= 50) return "var(--color-primary)";
+  if (score >= 38) return "var(--color-tertiary)";
   return "var(--color-error)";
 };
 
-const getLabel = (score:number):string=>{
-    if(score >= 85) return "Very High Demand";
-    if(score >= 70) return "High Demand";
-    if(score >= 55) return "Moderate Demand";
-    if(score >=40) return "Low Demand"
-    return "Very Low Demand"
-}
-
-const getHexColor = (score: number): string => {
-  if (score >= 85) return "#4edea3";
-  if (score >= 70) return "#c0c1ff";
-  if (score >= 55) return "#ffb95f";
-  return "#ffb4ab";
+const getLabel = (score: number): string => {
+  if (score >= 65) return "Very High Demand";
+  if (score >= 50) return "High Demand";
+  if (score >= 38) return "Moderate Demand";
+  if (score >= 25) return "Low Demand";
+  return "Very Low Demand";
 };
 
+const getHexColor = (score: number): string => {
+  if (score >= 65) return "#30D158";
+  if (score >= 50) return "#32D9FA";
+  if (score >= 38) return "#FF9F0A";
+  return "#FF453A";
+};
 const DemandRing = ({score , size=200}:Props) => {
     const color = getColor(score)
     const hexColor = getHexColor(score)

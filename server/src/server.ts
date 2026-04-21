@@ -10,9 +10,16 @@ import searchRouter from "./router/searchRoute.ts"
 import HistoryRouter from "./router/history.ts"
 import analysisRouter from "./router/analysis.ts"
 import cors from "cors"
+import rateLimit from "express-rate-limit"
 dotenv.config()
 
 const app = express();
+const rateLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000, 
+  max: 100, 
+  message: "Too many requests, please try again later.",
+})
+app.use(rateLimiter)
 app.use(
   cors({
     origin: "http://localhost:5173",
