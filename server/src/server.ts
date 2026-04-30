@@ -11,6 +11,7 @@ import HistoryRouter from "./router/history.ts"
 import analysisRouter from "./router/analysis.ts"
 import cors from "cors"
 import rateLimit from "express-rate-limit"
+import resumeRouter from "./router/resumeRouter.ts"
 dotenv.config()
 
 const app = express();
@@ -53,6 +54,8 @@ app.use("/api/auth",authRouter)
 app.use("/api/search",searchRouter)
 app.use("/api/history",HistoryRouter)
 app.use("/api/analysis",analysisRouter)
+app.use("/api/resume",resumeRouter)
+
 // Start server
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {

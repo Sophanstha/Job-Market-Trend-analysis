@@ -1,7 +1,9 @@
+import axios from "axios";
 import {
   type AnalyticsResponse,
   type CompareResponse,
   type HistoryItem,
+  type ResumeAnalysisResult,
   type SearchResponse,
 } from "../types";
 import api from "./axios";
@@ -27,7 +29,7 @@ export const compareJobsFn = async (
 };
 
 export const deleteHistoryfn = async (id: string): Promise<void> => {
-  console.log(id)
+  console.log(id);
   await api.delete(`/history/delete/${id}`);
 };
 
@@ -37,4 +39,19 @@ export const fetchHistoryFn = async (): Promise<HistoryItem[]> => {
     history: HistoryItem[];
   }>("/history/history");
   return data.history;
+};
+
+export const analyizResumeFn = async (
+  file: File,
+): Promise<ResumeAnalysisResult> => {
+  const formData = new FormData();
+  formData.append("resume", file);
+  const { data } = await api.post<ResumeAnalysisResult>(
+    "/resume/analyze",
+    formData,
+    {
+      headers: { "Content-Type": "multipart/form-data" },
+    },
+  );
+  return data;
 };

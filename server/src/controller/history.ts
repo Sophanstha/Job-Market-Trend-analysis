@@ -21,7 +21,6 @@ export const deleteHistory = async(req:AuthRequest , res:Response)=>{
     try {
     
     const {id} = req.params ;
-    console.log(id)
 
         
     const entry = await SearchHistory.findOne({

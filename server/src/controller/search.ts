@@ -2,7 +2,7 @@ import type { Response } from "express";
 import type { AuthRequest, IJobData } from "../type/types.ts";
 import JobData from "../models/JobData.model.ts";
 import rankJobsByQuery from "../algorithms/tfitdf.ts";
-import { calculateDemandSccore } from "../algorithms/demandScore.ts.ts";
+import { calculateDemandSccore } from "../algorithms/demandScore.ts";
 import { getRecommendations } from "../algorithms/recommend.ts";
 import SearchHistory from "../models/SearchHistory.ts";
 

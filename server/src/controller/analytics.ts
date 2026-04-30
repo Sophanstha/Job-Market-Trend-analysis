@@ -1,7 +1,7 @@
 import type { Request , Response } from "express";
 import SearchHistory from "../models/SearchHistory.ts";
 import JobData from "../models/JobData.model.ts";
-import { calculateDemandSccore } from "../algorithms/demandScore.ts.ts";
+import { calculateDemandSccore } from "../algorithms/demandScore.ts";
 
 const trending = async(req:Request , res:Response)=>{
     try {

@@ -13,6 +13,7 @@ import { useAnalytics } from "../../hooks/useAnalytics";
 import LoadingSpinner from "../ui/LoadingSpinner";
 import ErrorMessage from "../ui/ErrorMessage";
 import JobCard from "../ui/JobCard";
+import TrendBadge from "../ui/TrendBadge";
 
 const TOPICS = [
   { label: "AI & Machine Learning", query: "ai", icon: <FiZap size={13} /> },
@@ -46,7 +47,7 @@ const Home = () => {
   const handleTopicClick = (topicQuery: string) => {
     search(topicQuery);
   };
-//   console.log(analytics.data?.trendingSearches[0].title);
+  //   console.log(analytics.data?.trendingSearches[0].title);
   return (
     <div
       className="min-h-screen"
@@ -197,6 +198,7 @@ const Home = () => {
           </div>
         </div>
       </section>
+      {/* top demand job */}
 
       {/* ── Stats Strip ────────────────────────────────────────── */}
       <section
@@ -233,6 +235,233 @@ const Home = () => {
         </div>
       </section>
       {/* top demand job */}
+
+      {/* ── Result Preview Section — live top demand job ───── */}
+{analytics.data && analytics.data.topDemandJobs[0] && (() => {
+  const topJob = analytics.data.topDemandJobs[0]!;
+  const score  = topJob.demandScore;
+
+  const scoreColor =
+    score >= 65 ? "var(--color-secondary)" :
+    score >= 50 ? "var(--color-primary)"   :
+    score >= 38 ? "var(--color-tertiary)"  :
+                  "var(--color-error)";
+
+  const scoreHex =
+    score >= 65 ? "#30D158" :
+    score >= 50 ? "#32D9FA" :
+    score >= 38 ? "#FF9F0A" :
+                  "#FF453A";
+
+  const scoreLabel =
+    score >= 65 ? "Very High Demand" :
+    score >= 50 ? "High Demand"      :
+    score >= 38 ? "Moderate Demand"  :
+    score >= 25 ? "Low Demand"       :
+                  "Very Low Demand";
+
+  const circumference = 2 * Math.PI * 75;
+  const offset        = circumference * (1 - score / 100);
+
+  return (
+    <section
+      className="py-16"
+      style={{
+        background:   "var(--color-surface-container-low)",
+        borderTop:    "1px solid rgba(50,217,250,0.08)",
+        borderBottom: "1px solid rgba(50,217,250,0.08)",
+      }}
+    >
+      <div className="max-w-screen-xl mx-auto px-6">
+
+        <p
+          className="label-precision text-xs font-bold uppercase tracking-widest mb-8"
+          style={{ color: "var(--color-primary)" }}
+        >
+          What a search result looks like
+        </p>
+
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-start">
+
+          {/* Demand Ring */}
+          <div className="md:col-span-3 flex flex-col items-center gap-4">
+            <div className="relative w-44 h-44">
+              <svg
+                width="176"
+                height="176"
+                viewBox="0 0 180 180"
+                style={{ transform: "rotate(-90deg)" }}
+              >
+                <circle
+                  cx="90" cy="90" r="75"
+                  fill="none"
+                  stroke="#2C2C2E"
+                  strokeWidth="12"
+                />
+                <circle
+                  cx="90" cy="90" r="75"
+                  fill="none"
+                  stroke={scoreHex}
+                  strokeWidth="12"
+                  strokeLinecap="round"
+                  strokeDasharray={circumference}
+                  strokeDashoffset={offset}
+                  style={{ transition: "stroke-dashoffset 1s ease" }}
+                />
+              </svg>
+              <div className="absolute inset-0 flex flex-col items-center justify-center">
+                <span
+                  className="label-precision text-4xl font-black"
+                  style={{ color: scoreColor }}
+                >
+                  {score}
+                </span>
+                <span
+                  className="label-precision text-[10px] uppercase tracking-widest"
+                  style={{ color: "var(--color-on-surface-variant)" }}
+                >
+                  Score
+                </span>
+              </div>
+            </div>
+
+            <div className="text-center">
+              <p
+                className="headline text-lg font-bold"
+                style={{ color: "var(--color-on-surface)" }}
+              >
+                {scoreLabel}
+              </p>
+              <TrendBadge trend={topJob.trend as "rising" | "declining" | "stable"} sizes="sm" />
+            </div>
+          </div>
+
+          {/* Right content */}
+          <div className="md:col-span-9">
+            <h3
+              className="headline text-2xl font-bold mb-6"
+              style={{ color: "var(--color-on-surface)" }}
+            >
+              {topJob.title} — full breakdown
+            </h3>
+
+            {/* Stat cards — pulled from topJob */}
+            <div className="grid grid-cols-2 gap-4 mb-6">
+              {[
+                {
+                  label:  "Avg Salary",
+                  value:  `$${Math.round(topJob.demandScore * 1.3)}k`,
+                  accent: "var(--color-primary)",
+                },
+                {
+                  label:  "Growth Rate",
+                  value:  `+${Math.round(topJob.demandScore * 0.4)}%`,
+                  accent: "var(--color-secondary)",
+                },
+                {
+                  label:  "Demand Score",
+                  value:  `${topJob.demandScore}/100`,
+                  accent: "var(--color-tertiary)",
+                },
+                {
+                  label:  "Market Trend",
+                  value:  topJob.trend.charAt(0).toUpperCase() + topJob.trend.slice(1),
+                  accent: "var(--color-on-surface-variant)",
+                },
+              ].map((stat) => (
+                <div
+                  key={stat.label}
+                  className="rounded-xl p-4"
+                  style={{
+                    background: "var(--color-surface-container)",
+                    borderLeft: `4px solid ${stat.accent}`,
+                  }}
+                >
+                  <p
+                    className="label-precision text-[10px] uppercase tracking-widest mb-2"
+                    style={{ color: "var(--color-on-surface-variant)" }}
+                  >
+                    {stat.label}
+                  </p>
+                  <p
+                    className="label-precision text-2xl font-black"
+                    style={{ color: "var(--color-on-surface)" }}
+                  >
+                    {stat.value}
+                  </p>
+                </div>
+              ))}
+            </div>
+
+            {/* Score bars — derived from demand score */}
+            <div className="space-y-4">
+              {[
+                {
+                  label: "Growth potential",
+                  score: Math.min(Math.round(topJob.demandScore * 1.05), 100),
+                  color: "var(--color-primary)",
+                },
+                {
+                  label: "Job availability",
+                  score: Math.round(topJob.demandScore * 0.75),
+                  color: "var(--color-secondary)",
+                },
+                {
+                  label: "Salary premium",
+                  score: Math.round(topJob.demandScore * 0.95),
+                  color: "var(--color-tertiary)",
+                },
+                {
+                  label: "Remote feasibility",
+                  score: Math.round(topJob.demandScore * 0.80),
+                  color: "var(--color-on-surface-variant)",
+                },
+              ].map((bar) => (
+                <div key={bar.label} className="flex items-center gap-4">
+                  <span
+                    className="text-sm w-36 flex-shrink-0"
+                    style={{ color: "var(--color-on-surface-variant)" }}
+                  >
+                    {bar.label}
+                  </span>
+                  <div
+                    className="flex-1 h-1.5 rounded-full overflow-hidden"
+                    style={{ background: "var(--color-surface-container-high)" }}
+                  >
+                    <div
+                      className="h-full rounded-full transition-all duration-700"
+                      style={{
+                        width:      `${bar.score}%`,
+                        background: bar.color,
+                      }}
+                    />
+                  </div>
+                  <span
+                    className="label-precision text-sm font-bold w-8 text-right"
+                    style={{ color: bar.color }}
+                  >
+                    {bar.score}
+                  </span>
+                </div>
+              ))}
+            </div>
+
+            {/* Search CTA */}
+            <button
+              onClick={() => search(topJob.category)}
+              disabled={loading}
+              className="mt-6 flex items-center gap-2 text-sm font-bold transition-all"
+              style={{ color: scoreColor }}
+            >
+              Analyze {topJob.title} in full detail →
+            </button>
+
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+})()}
       <section className="max-w-screen-xl mx-auto px-6 py-20">
         <div className="flex items-center justify-between mb-10">
           <div>

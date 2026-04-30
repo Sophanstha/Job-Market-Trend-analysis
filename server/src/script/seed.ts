@@ -3,9 +3,12 @@ import mongoose from "mongoose";
 import JobData from "../models/JobData.model.ts";
 // import jobDataJson from "../data/jobData.js" 
 // import {jsonData} from "../data/jobData.ts"
-import jsonData from "../data/jobData.ts";
+// import jsonData from "../data/jobData.ts";
+// import jobData from './data/jobData.json' assert { type: 'json' };
+import { jsonData } from "../data/jsonJob.ts";
 dotenv.config()
 const seed = async():Promise<void> =>{
+    console.log(jsonData)
     try {
         // db connection
         await mongoose.connect(process.env.MONGO_URI as string)

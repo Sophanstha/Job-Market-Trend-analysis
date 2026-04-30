@@ -1,8 +1,8 @@
 import type { Request } from "express";
 import { Document, Types } from "mongoose";
 
-export interface IUser extends Document{
-_id: Types.ObjectId;
+export interface IUser extends Document {
+  _id: Types.ObjectId;
   name: string;
   email: string;
   password: string;
@@ -12,9 +12,9 @@ _id: Types.ObjectId;
   matchPassword(enteredPassword: string): Promise<boolean>;
 }
 
-export interface IJobData extends Document{
-    _id : Types.ObjectId,
-category: string;
+export interface IJobData extends Document {
+  _id: Types.ObjectId;
+  category: string;
   title: string;
   demandScore: number;
   growthRate: number;
@@ -58,4 +58,40 @@ export interface TFIDFScore {
   category: string;
   score: number;
 }
+
+export interface ResumeSkill {
+  name: string;
+  category: string;
+  confidence: number;
+}
+export interface SkillGap {
+  skill: string;
+  importance: "high" | "medium" | "low";
+}
+export interface ResumeAnalysisResult {
+  success: boolean;
+  extractedSkills: string[];
+  matchCategory: {
+    title: string;
+    category: string;
+    matchScore: number;
+    demandScore: number;
+    trend: string;
+    averageSalary: number;
+    growthRate: number;
+    remoteAvailability: number;
+    interpretation: string;
+  };
+  skillGaps: SkillGap[];
+  summery: string;
+  resumeScore: number;
+  recomandation: {
+    title: string;
+    category: string;
+    demandScore: number;
+    similarityScore: number;
+    reason: string;
+  }[];
+}
+
 

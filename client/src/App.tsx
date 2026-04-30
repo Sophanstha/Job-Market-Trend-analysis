@@ -10,6 +10,7 @@ import Regiter from './components/pages/Regiter'
 import Compare from './components/pages/Compare'
 import Analytics from './components/pages/Analytics'
 import History from './components/pages/History'
+import Resume from './components/pages/Resume'
 
 const PrivateRoute = ({children}:{children:React.ReactNode})=>{
   const {token} = useAppSelector((s)=>s.auth)
@@ -53,6 +54,7 @@ const App = () => {
                 </PrivateRoute>
               }
             />
+          <Route path='/resume' element={<Resume/>}/>
           </Routes>
         </main>
         <Footer />

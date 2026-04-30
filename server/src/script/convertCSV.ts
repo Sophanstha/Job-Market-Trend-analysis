@@ -9,7 +9,7 @@ const __dirname  = path.dirname(__filename);
 const CLEAN_PATH   = path.resolve(__dirname, "../data/clean_jobs.csv");
 const POSTS_PATH   = path.resolve(__dirname, "../data/job_postings.csv");
 const TREND_PATH   = path.resolve(__dirname, "../data/Trending_Tech_Jobs_2026.csv");
-const JSON_PATH    = path.resolve(__dirname, "../data/jobData.json");
+const JSON_PATH    = path.resolve(__dirname, "../data/jsonJob.ts");
 
 // ── Types ─────────────────────────────────────────────────────
 interface CleanRow {
@@ -66,57 +66,115 @@ const CATEGORY_MAP: Record<string, string[]> = {
     "artificial intelligence", "machine learning", "ml engineer",
     "ai engineer", "deep learning", "nlp", "computer vision", "llm",
     "mlops", "data scientist", "neural", "tensorflow", "pytorch",
-    "prompt engineer", "generative ai", "ai researcher",
+    "prompt engineer", "generative ai", "ai researcher", "ai architect",
+    "hugging face", "langchain", "rag engineer", "chatbot developer",
+    "speech recognition", "recommendation systems", "reinforcement learning",
   ],
+
   software: [
     "software engineer", "software developer", "full stack", "fullstack",
     "frontend", "front-end", "backend", "back-end", "web developer",
     "react developer", "node developer", "javascript developer",
     "typescript", "java developer", "python developer", ".net developer",
     "mobile developer", "ios developer", "android developer",
+    "php developer", "laravel developer", "wordpress developer",
+    "wordpress", "laravel", "drupal developer", "magento developer",
+    "vue developer", "angular developer", "next.js developer",
+    "nuxt developer", "svelte developer", "react native developer",
+    "react native", "flutter developer", "flutter", "vue", "angular",
+    "kotlin developer", "swift developer", "xamarin developer",
+    "ionic developer", "cross-platform developer",
+    "ruby developer", "rails developer", "go developer", "golang developer",
+    "rust developer", "scala developer", "spring boot developer",
+    "django developer", "fastapi developer", "express developer",
+    "c++ developer", "c# developer", "elixir developer",
+    "game developer", "unity developer", "unreal developer",
+    "embedded developer", "firmware engineer", "systems programmer",
+    "api developer", "sdk developer", "open source developer",
   ],
+
   data: [
     "data analyst", "data engineer", "business analyst", "bi analyst",
     "analytics engineer", "data warehouse", "tableau developer",
     "power bi", "sql developer", "business intelligence",
     "reporting analyst", "quantitative analyst",
+    "data architect", "etl developer", "dbt developer",
+    "snowflake developer", "spark engineer", "hadoop engineer",
+    "data governance", "data quality", "data modeler",
+    "looker developer", "metabase", "apache kafka", "airflow engineer",
+    "big data engineer", "azure data engineer", "aws data engineer",
   ],
+
   cybersecurity: [
     "security engineer", "security analyst", "cybersecurity",
     "cyber security", "penetration tester", "soc analyst",
     "information security", "network security", "cloud security",
     "devsecops", "ethical hacker", "incident responder",
+    "vulnerability analyst", "threat intelligence", "red team",
+    "blue team", "purple team", "forensic analyst", "malware analyst",
+    "appsec engineer", "iam engineer", "zero trust", "ciso",
+    "security architect", "grc analyst", "compliance analyst",
   ],
+
   cloud: [
     "cloud engineer", "cloud architect", "devops engineer",
     "site reliability", "sre", "platform engineer",
     "infrastructure engineer", "kubernetes engineer",
     "aws engineer", "azure engineer", "gcp engineer",
+    "terraform engineer", "ansible engineer", "ci/cd engineer",
+    "helm", "docker engineer", "linux administrator",
+    "network engineer", "cloud consultant", "multi-cloud architect",
+    "openstack", "cloudformation", "pulumi", "devsecops engineer",
   ],
+
   healthcare: [
     "nurse", "physician", "doctor", "medical", "clinical",
     "healthcare", "health informatics", "pharmacist", "therapist",
     "radiologist", "dental", "mental health", "surgeon",
+    "ehr developer", "medical coder", "health data analyst",
+    "bioinformatics", "clinical data manager", "medical researcher",
+    "epidemiologist", "public health", "telemedicine", "medical imaging",
+    "laboratory technician", "clinical engineer", "biomedical engineer",
   ],
+
   finance: [
     "financial analyst", "finance analyst", "accountant", "auditor",
     "investment banker", "trading", "fintech", "risk analyst",
     "actuary", "tax analyst", "portfolio manager", "controller",
+    "cfo", "treasury analyst", "credit analyst", "loan officer",
+    "wealth manager", "equity researcher", "hedge fund", "insurance analyst",
+    "financial modeler", "compliance officer", "aml analyst",
+    "payment engineer", "banking technology", "financial engineer",
   ],
+
   green: [
     "solar engineer", "wind energy", "sustainability", "environmental",
     "renewable energy", "green energy", "climate", "carbon analyst",
     "clean energy", "esg analyst",
+    "energy analyst", "climate scientist", "environmental engineer",
+    "sustainability consultant", "net zero", "carbon footprint",
+    "circular economy", "green tech", "environmental data analyst",
+    "waste management", "water resources engineer",
   ],
+
   blockchain: [
     "blockchain", "smart contract", "solidity", "web3",
     "ethereum", "defi", "nft", "crypto", "quantum computing",
     "qiskit", "quantum engineer",
+    "rust blockchain", "polkadot", "solana developer", "cosmos developer",
+    "layer 2", "zk engineer", "zero knowledge", "dapp developer",
+    "tokenomics", "blockchain architect", "substrate developer",
   ],
+
   design: [
     "ux designer", "ui designer", "product designer",
     "graphic designer", "ux researcher", "visual designer",
     "interaction designer", "figma", "creative director",
+    "motion designer", "animation designer", "brand designer",
+    "illustration", "3d designer", "ar/vr designer", "xr designer",
+    "design systems", "accessibility designer", "design lead",
+    "web designer", "video editor", "content designer",
+    "adobe xd", "sketch designer", "invision designer",
   ],
 };
 
@@ -142,7 +200,6 @@ const parseSalaryUSD = (
   return Math.round(n);
 };
 
-// Extract salary from description text (clean_jobs)
 const extractSalaryFromText = (text: string): number | null => {
   const patterns = [
     /\$(\d{2,3}),?(\d{3})\s*\/\s*year/i,
@@ -161,11 +218,9 @@ const extractSalaryFromText = (text: string): number | null => {
   return null;
 };
 
-// Convert LPA (Indian Lakhs Per Annum) to USD
 const lpaToUSD = (lpa: string): number | null => {
   const n = parseFloat(lpa);
   if (isNaN(n) || n <= 0) return null;
-  // 1 LPA ≈ $1,220 USD (1 Lakh = 100,000 INR, 1 USD ≈ 82 INR)
   return Math.round(n * 100000 / 82);
 };
 
@@ -178,6 +233,8 @@ const KNOWN_SKILLS = [
   "REST","GraphQL","Machine Learning","Deep Learning","AI","NLP",
   "Solidity","Ethereum","Web3","Qiskit","Quantum","Climate Data",
   "GIS","R","MATLAB","Scala","Airflow","dbt","Looker","Snowflake",
+  "PHP","Laravel","WordPress","Vue","Angular","Next.js","Flutter",
+  "Django","FastAPI","Spring","Redis","Elasticsearch","Kafka",
 ];
 
 const extractSkillsFromText = (text: string): string[] => {
@@ -209,84 +266,203 @@ const ENRICHMENT: Record<string, {
   summary:          string;
 }> = {
   ai: {
-    title:            "Artificial Intelligence & Machine Learning",
-    demandScore:      94, growthRate: 38, trend: "rising",
-    keywords:         ["artificial intelligence","machine learning","deep learning","neural network","ai","ml","python","tensorflow","pytorch","llm","mlops","nlp","computer vision","generative ai"],
-    historicalDemand: [60,65,72,78,85,90,94], years: [2018,2019,2020,2021,2022,2023,2024],
-    education:        "Bachelor or Master in CS or related field",
-    summary:          "AI and ML roles are growing at 38% year over year. Highest demand in model fine-tuning, MLOps, and applied AI. Entry barriers are lowering with online platforms and bootcamps.",
+    title:       "Artificial Intelligence & Machine Learning",
+    demandScore: 94, growthRate: 38, trend: "rising",
+    keywords: [
+      "artificial intelligence", "machine learning", "deep learning",
+      "neural network", "ai", "ml", "python", "tensorflow", "pytorch",
+      "llm", "mlops", "nlp", "computer vision", "generative ai",
+      "huggingface", "langchain", "chatgpt", "openai", "data scientist",
+      "reinforcement learning", "rag", "prompt engineering",
+      "ai engineer", "ai architect", "speech recognition",
+    ],
+    historicalDemand: [60,65,72,78,85,90,94],
+    years:            [2018,2019,2020,2021,2022,2023,2024],
+    education: "Bachelor or Master in CS or related field",
+    summary:   "AI and ML roles are growing at 38% year over year. Highest demand in model fine-tuning, MLOps, and applied AI. Entry barriers are lowering with online platforms and bootcamps.",
   },
+
   software: {
-    title:            "Software Development",
-    demandScore:      88, growthRate: 25, trend: "rising",
-    keywords:         ["software","developer","programming","javascript","typescript","react","nodejs","python","fullstack","frontend","backend","api","devops","aws","github"],
-    historicalDemand: [70,73,76,80,83,86,88], years: [2018,2019,2020,2021,2022,2023,2024],
-    education:        "Bachelor in CS or self-taught with strong portfolio",
-    summary:          "Software development remains the largest tech hiring category globally. Full stack and cloud-skilled developers are most in demand. Remote opportunities are very abundant.",
+    title:       "Software Development",
+    demandScore: 88, growthRate: 25, trend: "rising",
+    keywords: [
+      // Core
+      "software", "developer", "programming", "engineer",
+      // JavaScript ecosystem
+      "javascript", "typescript", "react", "nextjs", "next.js",
+      "vue", "angular", "nuxt", "svelte", "nodejs", "node.js",
+      "express", "nestjs",
+      // Mobile
+      "react native", "flutter", "ios", "android", "kotlin", "swift",
+      "mobile developer", "mobile app",
+      // PHP ecosystem
+      "php", "laravel", "wordpress", "drupal", "magento", "symfony",
+      // Python web
+      "django", "fastapi", "flask",
+      // Java ecosystem
+      "java", "spring", "spring boot",
+      // Other languages
+      "ruby", "rails", "go", "golang", "rust", "scala",
+      "c++", "c#", ".net", "elixir",
+      // Other roles
+      "fullstack", "full stack", "frontend", "front-end",
+      "backend", "back-end", "web developer", "api", "sdk",
+      "game developer", "unity", "unreal",
+      "devops", "aws", "github", "git",
+    ],
+    historicalDemand: [70,73,76,80,83,86,88],
+    years:            [2018,2019,2020,2021,2022,2023,2024],
+    education: "Bachelor in CS or self-taught with strong portfolio",
+    summary:   "Software development remains the largest tech hiring category globally. Full stack and cloud-skilled developers are most in demand. Remote opportunities are very abundant.",
   },
+
   data: {
-    title:            "Data Science & Analytics",
-    demandScore:      87, growthRate: 28, trend: "rising",
-    keywords:         ["data science","data analyst","analytics","sql","tableau","power bi","statistics","excel","business intelligence","data engineer","spark","visualization","reporting"],
-    historicalDemand: [55,62,68,74,79,83,87], years: [2018,2019,2020,2021,2022,2023,2024],
-    education:        "Bachelor in Statistics, Mathematics, or CS",
-    summary:          "Data roles are expanding beyond tech into every industry. SQL and Python remain the core skills. Business analytics and data engineering are the fastest growing sub-fields.",
+    title:       "Data Science & Analytics",
+    demandScore: 87, growthRate: 28, trend: "rising",
+    keywords: [
+      "data science", "data analyst", "data engineer",
+      "analytics", "sql", "tableau", "power bi", "statistics",
+      "excel", "business intelligence", "spark", "hadoop",
+      "airflow", "dbt", "snowflake", "looker", "etl",
+      "data warehouse", "big data", "data architect",
+      "visualization", "reporting", "bi developer",
+      "kafka", "databricks", "azure data", "aws data",
+      "quantitative analyst", "business analyst",
+    ],
+    historicalDemand: [55,62,68,74,79,83,87],
+    years:            [2018,2019,2020,2021,2022,2023,2024],
+    education: "Bachelor in Statistics, Mathematics, or CS",
+    summary:   "Data roles are expanding beyond tech into every industry. SQL and Python remain the core skills. Business analytics and data engineering are the fastest growing sub-fields.",
   },
+
   cybersecurity: {
-    title:            "Cybersecurity",
-    demandScore:      91, growthRate: 35, trend: "rising",
-    keywords:         ["cybersecurity","security","hacking","penetration testing","network security","firewall","encryption","malware","soc","incident response","cloud security","zero trust"],
-    historicalDemand: [65,70,75,80,85,88,91], years: [2018,2019,2020,2021,2022,2023,2024],
-    education:        "Bachelor in CS or Cybersecurity plus certifications CISSP CEH",
-    summary:          "Cybersecurity has a critical talent shortage with 3.5 million unfilled positions globally. Demand driven by rising ransomware attacks, cloud adoption, and data breach incidents.",
+    title:       "Cybersecurity",
+    demandScore: 91, growthRate: 35, trend: "rising",
+    keywords: [
+      "cybersecurity", "cyber security", "security",
+      "penetration testing", "ethical hacking",
+      "network security", "firewall", "encryption",
+      "siem", "soc", "vulnerability", "malware",
+      "incident response", "cloud security", "zero trust",
+      "red team", "blue team", "appsec", "iam",
+      "forensic", "threat intelligence", "devsecops",
+      "kali linux", "wireshark", "metasploit",
+      "security analyst", "security engineer",
+    ],
+    historicalDemand: [65,70,75,80,85,88,91],
+    years:            [2018,2019,2020,2021,2022,2023,2024],
+    education: "Bachelor in CS or Cybersecurity plus certifications CISSP CEH",
+    summary:   "Cybersecurity has a critical talent shortage with 3.5 million unfilled positions globally. Demand driven by rising ransomware attacks, cloud adoption, and data breach incidents.",
   },
+
   cloud: {
-    title:            "Cloud Computing",
-    demandScore:      89, growthRate: 30, trend: "rising",
-    keywords:         ["cloud","aws","azure","google cloud","kubernetes","docker","devops","terraform","serverless","microservices","infrastructure","sre","platform"],
-    historicalDemand: [58,65,72,78,83,86,89], years: [2018,2019,2020,2021,2022,2023,2024],
-    education:        "Bachelor in CS plus cloud certifications AWS Azure GCP",
-    summary:          "Cloud adoption is accelerating across all industries. AWS leads at 32% market share followed by Azure and GCP. Multi-cloud and DevOps skills are increasingly valued by employers.",
+    title:       "Cloud Computing",
+    demandScore: 89, growthRate: 30, trend: "rising",
+    keywords: [
+      "cloud", "aws", "azure", "google cloud", "gcp",
+      "kubernetes", "docker", "devops", "terraform",
+      "ansible", "jenkins", "ci/cd", "serverless",
+      "microservices", "infrastructure", "sre",
+      "platform engineer", "linux", "nginx",
+      "helm", "openstack", "cloudformation",
+      "site reliability", "devsecops", "pulumi",
+      "cloud architect", "cloud engineer",
+    ],
+    historicalDemand: [58,65,72,78,83,86,89],
+    years:            [2018,2019,2020,2021,2022,2023,2024],
+    education: "Bachelor in CS plus cloud certifications AWS Azure GCP",
+    summary:   "Cloud adoption is accelerating across all industries. AWS leads at 32% market share followed by Azure and GCP. Multi-cloud and DevOps skills are increasingly valued by employers.",
   },
+
   healthcare: {
-    title:            "Healthcare & Medical",
-    demandScore:      82, growthRate: 15, trend: "rising",
-    keywords:         ["healthcare","medical","nurse","doctor","hospital","clinical","patient","telehealth","ehr","physician","therapy","mental health","wellness"],
-    historicalDemand: [68,70,78,75,78,80,82], years: [2018,2019,2020,2021,2022,2023,2024],
-    education:        "Degree in Nursing, Medicine, or Health Informatics",
-    summary:          "Healthcare is one of the most stable and growing job markets globally. Aging populations and telehealth expansion are key growth drivers. Health informatics is fastest growing adjacent role.",
+    title:       "Healthcare & Medical",
+    demandScore: 82, growthRate: 15, trend: "rising",
+    keywords: [
+      "healthcare", "medical", "nurse", "doctor", "hospital",
+      "clinical", "patient", "telehealth", "ehr", "physician",
+      "therapy", "mental health", "wellness", "pharmacist",
+      "surgeon", "radiology", "dental", "bioinformatics",
+      "health informatics", "epidemiologist", "public health",
+      "medical imaging", "biomedical", "clinical research",
+      "medical coder", "healthcare management",
+    ],
+    historicalDemand: [68,70,78,75,78,80,82],
+    years:            [2018,2019,2020,2021,2022,2023,2024],
+    education: "Degree in Nursing, Medicine, or Health Informatics",
+    summary:   "Healthcare is one of the most stable and growing job markets globally. Aging populations and telehealth expansion are key growth drivers. Health informatics is fastest growing adjacent role.",
   },
+
   finance: {
-    title:            "Finance & Fintech",
-    demandScore:      80, growthRate: 18, trend: "stable",
-    keywords:         ["finance","fintech","banking","investment","trading","crypto","blockchain","financial analyst","risk","accounting","cfa","portfolio","economics","quant"],
-    historicalDemand: [72,73,68,74,76,78,80], years: [2018,2019,2020,2021,2022,2023,2024],
-    education:        "Bachelor in Finance, Economics, or CS",
-    summary:          "Finance is being disrupted by fintech and blockchain. Traditional roles are declining while quantitative and tech-finance hybrid roles are surging. Python skills are increasingly expected.",
+    title:       "Finance & Fintech",
+    demandScore: 80, growthRate: 18, trend: "stable",
+    keywords: [
+      "finance", "fintech", "banking", "investment", "trading",
+      "crypto", "blockchain", "financial analyst", "risk",
+      "accounting", "cfa", "portfolio", "economics", "quant",
+      "auditor", "actuary", "tax analyst", "controller",
+      "wealth manager", "hedge fund", "insurance analyst",
+      "financial modeling", "valuation", "bloomberg",
+      "payment", "aml", "compliance officer",
+    ],
+    historicalDemand: [72,73,68,74,76,78,80],
+    years:            [2018,2019,2020,2021,2022,2023,2024],
+    education: "Bachelor in Finance, Economics, or CS",
+    summary:   "Finance is being disrupted by fintech and blockchain. Traditional roles are declining while quantitative and tech-finance hybrid roles are surging. Python skills are increasingly expected.",
   },
+
   green: {
-    title:            "Green Energy & Sustainability",
-    demandScore:      76, growthRate: 22, trend: "rising",
-    keywords:         ["green","sustainability","renewable energy","solar","wind","environment","climate","esg","carbon","clean energy","electric vehicle","recycling","conservation"],
-    historicalDemand: [45,50,55,60,65,71,76], years: [2018,2019,2020,2021,2022,2023,2024],
-    education:        "Bachelor in Environmental Science, Engineering, or Sustainability",
-    summary:          "Green jobs are growing rapidly driven by government climate policies and corporate ESG commitments. Solar and wind energy roles are the fastest growing sub-fields in this category.",
+    title:       "Green Energy & Sustainability",
+    demandScore: 76, growthRate: 22, trend: "rising",
+    keywords: [
+      "green", "sustainability", "renewable energy", "solar",
+      "wind", "environment", "climate", "esg", "carbon",
+      "clean energy", "electric vehicle", "recycling", "conservation",
+      "energy analyst", "climate scientist", "environmental engineer",
+      "net zero", "carbon footprint", "circular economy",
+      "green tech", "waste management", "water resources",
+      "biomass", "hydrogen", "energy efficiency",
+    ],
+    historicalDemand: [45,50,55,60,65,71,76],
+    years:            [2018,2019,2020,2021,2022,2023,2024],
+    education: "Bachelor in Environmental Science, Engineering, or Sustainability",
+    summary:   "Green jobs are growing rapidly driven by government climate policies and corporate ESG commitments. Solar and wind energy roles are the fastest growing sub-fields in this category.",
   },
+
   blockchain: {
-    title:            "Blockchain & Quantum Computing",
-    demandScore:      78, growthRate: 32, trend: "rising",
-    keywords:         ["blockchain","crypto","smart contract","solidity","web3","ethereum","defi","quantum","qiskit","quantum computing","distributed ledger"],
-    historicalDemand: [30,38,45,55,65,72,78], years: [2018,2019,2020,2021,2022,2023,2024],
-    education:        "Bachelor in CS, Mathematics, or Physics",
-    summary:          "Blockchain and quantum computing are fast-emerging fields. Web3 development and quantum algorithm roles are highly sought with extremely limited talent supply globally.",
+    title:       "Blockchain & Quantum Computing",
+    demandScore: 78, growthRate: 32, trend: "rising",
+    keywords: [
+      "blockchain", "crypto", "smart contract", "solidity",
+      "web3", "ethereum", "defi", "nft", "hardhat",
+      "truffle", "metamask", "quantum", "qiskit",
+      "quantum computing", "distributed ledger",
+      "polkadot", "solana", "cosmos", "layer 2",
+      "zero knowledge", "zk", "dapp", "tokenomics",
+      "substrate", "rust blockchain", "cryptography",
+    ],
+    historicalDemand: [30,38,45,55,65,72,78],
+    years:            [2018,2019,2020,2021,2022,2023,2024],
+    education: "Bachelor in CS, Mathematics, or Physics",
+    summary:   "Blockchain and quantum computing are fast-emerging fields. Web3 development and quantum algorithm roles are highly sought with extremely limited talent supply globally.",
   },
+
   design: {
-    title:            "UI/UX Design",
-    demandScore:      78, growthRate: 16, trend: "rising",
-    keywords:         ["design","ux","ui","user experience","figma","wireframe","prototype","product design","adobe","interaction design","usability","hci","visual design"],
-    historicalDemand: [58,62,65,68,72,75,78], years: [2018,2019,2020,2021,2022,2023,2024],
-    education:        "Bachelor in Design, HCI, or self-taught with portfolio",
-    summary:          "UX design demand is growing as every company prioritises user experience. Figma has become the industry standard. Product designers with coding knowledge are highly valued.",
+    title:       "UI/UX Design",
+    demandScore: 78, growthRate: 16, trend: "rising",
+    keywords: [
+      "design", "ux", "ui", "user experience", "figma",
+      "wireframe", "prototype", "product design",
+      "adobe", "interaction design", "usability", "hci",
+      "visual design", "sketch", "adobe xd",
+      "motion design", "brand design", "design system",
+      "accessibility", "user research", "web designer",
+      "graphic design", "typography", "3d design",
+      "ar vr design", "creative director", "video editor",
+    ],
+    historicalDemand: [58,62,65,68,72,75,78],
+    years:            [2018,2019,2020,2021,2022,2023,2024],
+    education: "Bachelor in Design, HCI, or self-taught with portfolio",
+    summary:   "UX design demand is growing as every company prioritises user experience. Figma has become the industry standard. Product designers with coding knowledge are highly valued.",
   },
 };
 
@@ -294,7 +470,6 @@ const ENRICHMENT: Record<string, {
 // STEP 1 — Read all 3 CSV files
 // ══════════════════════════════════════════════════════════════
 
-// Groups accumulator
 const groups: Record<string, {
   rows:      UnifiedRow[];
   skills:    Map<string, number>;
@@ -318,7 +493,7 @@ const addToGroup = (cat: string, row: UnifiedRow) => {
     g.skills.set(sk, (g.skills.get(sk) || 0) + 1);
   });
 
-  const g = groups[cat]!;
+  const g    = groups[cat]!;
   const role = row.title.trim();
   if (role) g.roles.set(role, (g.roles.get(role) || 0) + 1);
 
@@ -328,11 +503,11 @@ const addToGroup = (cat: string, row: UnifiedRow) => {
 
 // ── File 1: clean_jobs.csv ────────────────────────────────────
 console.log("📂 Reading clean_jobs.csv...");
-const cleanRaw = fs.readFileSync(CLEAN_PATH, "utf-8");
+const cleanRaw  = fs.readFileSync(CLEAN_PATH, "utf-8");
 const cleanRows = parse(cleanRaw, {
-  columns:          true,
-  skip_empty_lines: true,
-  trim:             true,
+  columns:            true,
+  skip_empty_lines:   true,
+  trim:               true,
   relax_column_count: true,
 }) as CleanRow[];
 
@@ -341,10 +516,10 @@ cleanRows.forEach((row) => {
   const cat = classify(row.title);
   if (!cat) return;
   c1++;
-  const salary  = extractSalaryFromText(row.description || "");
-  const skills  = extractSkillsFromText(row.description || "");
-  const isRemote = (row.work_type || "").toLowerCase().includes("remote") ||
-                   (row.description || "").toLowerCase().includes("remote");
+  const salary   = extractSalaryFromText(row.description || "");
+  const skills   = extractSkillsFromText(row.description || "");
+  const isRemote = (row.work_type    || "").toLowerCase().includes("remote") ||
+                   (row.description  || "").toLowerCase().includes("remote");
   addToGroup(cat, {
     title:    row.title,
     salary,
@@ -358,11 +533,11 @@ console.log(`   ✅ ${c1} / ${cleanRows.length} classified`);
 
 // ── File 2: job_postings.csv ──────────────────────────────────
 console.log("📂 Reading job_postings.csv...");
-const postsRaw  = fs.readFileSync(POSTS_PATH, "utf-8");
-const postRows  = parse(postsRaw, {
-  columns:          true,
-  skip_empty_lines: true,
-  trim:             true,
+const postsRaw = fs.readFileSync(POSTS_PATH, "utf-8");
+const postRows = parse(postsRaw, {
+  columns:            true,
+  skip_empty_lines:   true,
+  trim:               true,
   relax_column_count: true,
 }) as PostingRow[];
 
@@ -379,7 +554,8 @@ postRows.forEach((row) => {
     .concat(extractSkillsFromText(row.description || ""))
     .filter((v, i, a) => a.indexOf(v) === i)
     .slice(0, 8);
-  const isRemote  = row.remote_allowed === "1" || row.remote_allowed?.toLowerCase() === "true";
+  const isRemote = row.remote_allowed === "1" ||
+                   row.remote_allowed?.toLowerCase() === "true";
 
   addToGroup(cat, {
     title:    row.title,
@@ -438,7 +614,7 @@ const output = Object.entries(groups)
   .map(([cat, g]) => {
     const enrich = ENRICHMENT[cat]!;
 
-    // Salaries — filter realistic USD values
+    // Salaries
     const salaries = g.rows
       .map((r) => r.salary)
       .filter((s): s is number => s !== null && s > 20000 && s < 800000);
@@ -479,26 +655,26 @@ const output = Object.entries(groups)
       .map(([l]) => l)
       .filter((l) => l.length > 1 && l !== "nan");
 
-   return {
-  category : cat,
-  title:              enrich.title,
-  demandScore:        enrich.demandScore,
-  growthRate:         enrich.growthRate,
-  averageSalary:      avgSalary > 0 ? avgSalary : 85000,
-  jobOpenings:        g.rows.length * 8 || 500,
-  trend:              enrich.trend,
-  topSkills:          topSkills.length  > 0 ? topSkills  : ["See job description"],
-  topRoles:           topRoles.length   > 0 ? topRoles   : [enrich.title],
-  industries:         industries.length > 0 ? industries : ["Tech", "Finance", "Healthcare"],
-  education:          enrich.education,
-  remoteAvailability: remoteAvailability || 50,
-  entryLevelSalary:   q1,
-  seniorLevelSalary:  q3,
-  summary:            enrich.summary,
-  keywords:           enrich.keywords,
-  historicalDemand:   enrich.historicalDemand,
-  years:              enrich.years,
-};
+    return {
+      category:           cat,
+      title:              enrich.title,
+      demandScore:        enrich.demandScore,
+      growthRate:         enrich.growthRate,
+      averageSalary:      avgSalary > 0 ? avgSalary : 85000,
+      jobOpenings:        g.rows.length * 8 || 500,
+      trend:              enrich.trend,
+      topSkills:          topSkills.length  > 0 ? topSkills  : ["See job description"],
+      topRoles:           topRoles.length   > 0 ? topRoles   : [enrich.title],
+      industries:         industries.length > 0 ? industries : ["Tech", "Finance", "Healthcare"],
+      education:          enrich.education,
+      remoteAvailability: remoteAvailability || 50,
+      entryLevelSalary:   q1,
+      seniorLevelSalary:  q3,
+      summary:            enrich.summary,
+      keywords:           enrich.keywords,
+      historicalDemand:   enrich.historicalDemand,
+      years:              enrich.years,
+    };
   })
   .sort((a, b) => b.demandScore - a.demandScore);
 
