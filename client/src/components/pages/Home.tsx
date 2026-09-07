@@ -14,6 +14,7 @@ import LoadingSpinner from "../ui/LoadingSpinner";
 import ErrorMessage from "../ui/ErrorMessage";
 import JobCard from "../ui/JobCard";
 import TrendBadge from "../ui/TrendBadge";
+import { motion } from "framer-motion";
 
 const TOPICS = [
   { label: "AI & Machine Learning", query: "ai", icon: <FiZap size={13} /> },
@@ -32,29 +33,58 @@ const TOPICS = [
   { label: "Healthcare", query: "healthcare", icon: <FiAward size={13} /> },
 ];
 
+// Animation Variants
+const fadeInUp = {
+  hidden: { opacity: 0, y: 30 },
+  visible: { 
+    opacity: 1, 
+    y: 0, 
+    transition: { duration: 0.6, ease: "easeOut" } 
+  },
+};
+
+const staggerContainer = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.1,
+    },
+  },
+};
+
+const scaleIn = {
+  hidden: { opacity: 0, scale: 0.9 },
+  visible: { 
+    opacity: 1, 
+    scale: 1, 
+    transition: { duration: 0.5, ease: "easeOut" } 
+  },
+};
+
 const Home = () => {
   const [query, setQuery] = useState("");
   const { search, error, loading } = UseSearch();
   const navigate = useNavigate();
   const analytics = useAnalytics();
 
-  //   console.log(analytics.data?.topDemandJobs)
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
     if (!query.trim()) return;
     search(query.trim());
   };
+
   const handleTopicClick = (topicQuery: string) => {
     search(topicQuery);
   };
-  //   console.log(analytics.data?.trendingSearches[0].title);
+
   return (
     <div
       className="min-h-screen"
       style={{ background: "var(--color-background)" }}
     >
+      {/* ── HERO SECTION (Page Load Animation) ───────────────── */}
       <section className="relative overflow-hidden">
-        {/* Background glow */}
         <div
           className="absolute inset-0 pointer-events-none"
           style={{
@@ -63,8 +93,14 @@ const Home = () => {
           }}
         />
         <div className="max-w-screen-xl mx-auto px-6 pt-24 pb-20 relative z-10">
+          
           {/* Badge */}
-          <div className="flex justify-center mb-6">
+          <motion.div 
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            className="flex justify-center mb-6"
+          >
             <span
               className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs label-precision font-bold uppercase tracking-widest"
               style={{
@@ -76,8 +112,13 @@ const Home = () => {
               <FiTrendingUp size={11} />
               Real-time job market intelligence
             </span>
-          </div>
-          <h1
+          </motion.div>
+
+          {/* Heading */}
+          <motion.h1
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.1 }}
             className="headline text-center font-extrabold tracking-tighter leading-none mb-6"
             style={{
               fontSize: "clamp(2.5rem, 7vw, 5rem)",
@@ -96,21 +137,28 @@ const Home = () => {
               Career Demand
             </span>{" "}
             Score
-          </h1>
-          <p
+          </motion.h1>
+
+          {/* Subtitle */}
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
             className="text-center text-lg max-w-2xl mx-auto mb-12 leading-relaxed"
             style={{ color: "var(--color-on-surface-variant)" }}
           >
             Search any job title, skill, or industry — and instantly get a
             demand score, salary data, growth trends, and personalized career
             recommendations.
-          </p>
+          </motion.p>
 
           {/* Search bar */}
-
-          <form
+          <motion.form
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.5, delay: 0.3 }}
             onSubmit={handleSearch}
-            className="max-w-2xl mx-auto relative mb-6 "
+            className="max-w-2xl mx-auto relative mb-6"
           >
             <FiSearch
               size={18}
@@ -158,18 +206,25 @@ const Home = () => {
                 </>
               )}
             </button>
-          </form>
+          </motion.form>
+
           {error && (
             <div className="max-w-2xl mx-auto mb-6">
               <ErrorMessage message={error} />
             </div>
           )}
 
-          {/* Topic pills */}
-          <div className="flex flex-wrap justify-center gap-3">
+          {/* Topic pills - Staggered entrance */}
+          <motion.div 
+            variants={staggerContainer}
+            initial="hidden"
+            animate="visible"
+            className="flex flex-wrap justify-center gap-3"
+          >
             {TOPICS.map((topic) => (
-              <button
+              <motion.button
                 key={topic.query}
+                variants={fadeInUp}
                 onClick={() => handleTopicClick(topic.query)}
                 disabled={loading}
                 className="flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 disabled:opacity-50"
@@ -193,15 +248,18 @@ const Home = () => {
               >
                 {topic.icon}
                 {topic.label}
-              </button>
+              </motion.button>
             ))}
-          </div>
+          </motion.div>
         </div>
       </section>
-      {/* top demand job */}
 
-      {/* ── Stats Strip ────────────────────────────────────────── */}
-      <section
+      {/* ── STATS STRIP (Scroll-Triggered Stagger) ─────────────── */}
+      <motion.section
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, amount: 0.3 }}
+        variants={staggerContainer}
         className="py-10"
         style={{
           borderTop: "1px solid rgba(70,69,84,0.2)",
@@ -216,7 +274,7 @@ const Home = () => {
               { value: "3", label: "AI Algorithms" },
               { value: "100%", label: "Free to Use" },
             ].map((stat) => (
-              <div key={stat.label}>
+              <motion.div key={stat.label} variants={fadeInUp}>
                 <p
                   className="label-precision text-3xl font-bold mb-1"
                   style={{ color: "var(--color-primary)" }}
@@ -229,239 +287,241 @@ const Home = () => {
                 >
                   {stat.label}
                 </p>
-              </div>
+              </motion.div>
             ))}
           </div>
         </div>
-      </section>
-      {/* top demand job */}
+      </motion.section>
 
-      {/* ── Result Preview Section — live top demand job ───── */}
-{analytics.data && analytics.data.topDemandJobs[0] && (() => {
-  const topJob = analytics.data.topDemandJobs[0]!;
-  const score  = topJob.demandScore;
+      {/* ── RESULT PREVIEW SECTION (Scroll-Triggered) ──────────── */}
+      {analytics.data && analytics.data.topDemandJobs[0] && (() => {
+        const topJob = analytics.data.topDemandJobs[0]!;
+        const score = topJob.demandScore;
 
-  const scoreColor =
-    score >= 65 ? "var(--color-secondary)" :
-    score >= 50 ? "var(--color-primary)"   :
-    score >= 38 ? "var(--color-tertiary)"  :
-                  "var(--color-error)";
+        const scoreColor =
+          score >= 65 ? "var(--color-secondary)" :
+          score >= 50 ? "var(--color-primary)"   :
+          score >= 38 ? "var(--color-tertiary)"  :
+                        "var(--color-error)";
 
-  const scoreHex =
-    score >= 65 ? "#30D158" :
-    score >= 50 ? "#32D9FA" :
-    score >= 38 ? "#FF9F0A" :
-                  "#FF453A";
+        const scoreHex =
+          score >= 65 ? "#30D158" :
+          score >= 50 ? "#32D9FA" :
+          score >= 38 ? "#FF9F0A" :
+                        "#FF453A";
 
-  const scoreLabel =
-    score >= 65 ? "Very High Demand" :
-    score >= 50 ? "High Demand"      :
-    score >= 38 ? "Moderate Demand"  :
-    score >= 25 ? "Low Demand"       :
-                  "Very Low Demand";
+        const scoreLabel =
+          score >= 65 ? "Very High Demand" :
+          score >= 50 ? "High Demand"      :
+          score >= 38 ? "Moderate Demand"  :
+          score >= 25 ? "Low Demand"       :
+                        "Very Low Demand";
 
-  const circumference = 2 * Math.PI * 75;
-  const offset        = circumference * (1 - score / 100);
+        const circumference = 2 * Math.PI * 75;
+        const offset = circumference * (1 - score / 100);
 
-  return (
-    <section
-      className="py-16"
-      style={{
-        background:   "var(--color-surface-container-low)",
-        borderTop:    "1px solid rgba(50,217,250,0.08)",
-        borderBottom: "1px solid rgba(50,217,250,0.08)",
-      }}
-    >
-      <div className="max-w-screen-xl mx-auto px-6">
-
-        <p
-          className="label-precision text-xs font-bold uppercase tracking-widest mb-8"
-          style={{ color: "var(--color-primary)" }}
-        >
-          What a search result looks like
-        </p>
-
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-start">
-
-          {/* Demand Ring */}
-          <div className="md:col-span-3 flex flex-col items-center gap-4">
-            <div className="relative w-44 h-44">
-              <svg
-                width="176"
-                height="176"
-                viewBox="0 0 180 180"
-                style={{ transform: "rotate(-90deg)" }}
-              >
-                <circle
-                  cx="90" cy="90" r="75"
-                  fill="none"
-                  stroke="#2C2C2E"
-                  strokeWidth="12"
-                />
-                <circle
-                  cx="90" cy="90" r="75"
-                  fill="none"
-                  stroke={scoreHex}
-                  strokeWidth="12"
-                  strokeLinecap="round"
-                  strokeDasharray={circumference}
-                  strokeDashoffset={offset}
-                  style={{ transition: "stroke-dashoffset 1s ease" }}
-                />
-              </svg>
-              <div className="absolute inset-0 flex flex-col items-center justify-center">
-                <span
-                  className="label-precision text-4xl font-black"
-                  style={{ color: scoreColor }}
-                >
-                  {score}
-                </span>
-                <span
-                  className="label-precision text-[10px] uppercase tracking-widest"
-                  style={{ color: "var(--color-on-surface-variant)" }}
-                >
-                  Score
-                </span>
-              </div>
-            </div>
-
-            <div className="text-center">
+        return (
+          <motion.section
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.2 }}
+            variants={fadeInUp}
+            className="py-16"
+            style={{
+              background: "var(--color-surface-container-low)",
+              borderTop: "1px solid rgba(50,217,250,0.08)",
+              borderBottom: "1px solid rgba(50,217,250,0.08)",
+            }}
+          >
+            <div className="max-w-screen-xl mx-auto px-6">
               <p
-                className="headline text-lg font-bold"
-                style={{ color: "var(--color-on-surface)" }}
+                className="label-precision text-xs font-bold uppercase tracking-widest mb-8"
+                style={{ color: "var(--color-primary)" }}
               >
-                {scoreLabel}
+                What a search result looks like
               </p>
-              <TrendBadge trend={topJob.trend as "rising" | "declining" | "stable"} sizes="sm" />
-            </div>
-          </div>
 
-          {/* Right content */}
-          <div className="md:col-span-9">
-            <h3
-              className="headline text-2xl font-bold mb-6"
-              style={{ color: "var(--color-on-surface)" }}
-            >
-              {topJob.title} — full breakdown
-            </h3>
+              <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-start">
+                {/* Demand Ring */}
+                <div className="md:col-span-3 flex flex-col items-center gap-4">
+                  <div className="relative w-44 h-44">
+                    <svg
+                      width="176"
+                      height="176"
+                      viewBox="0 0 180 180"
+                      style={{ transform: "rotate(-90deg)" }}
+                    >
+                      <circle
+                        cx="90" cy="90" r="75"
+                        fill="none"
+                        stroke="#2C2C2E"
+                        strokeWidth="12"
+                      />
+                      <circle
+                        cx="90" cy="90" r="75"
+                        fill="none"
+                        stroke={scoreHex}
+                        strokeWidth="12"
+                        strokeLinecap="round"
+                        strokeDasharray={circumference}
+                        strokeDashoffset={offset}
+                        style={{ transition: "stroke-dashoffset 1s ease" }}
+                      />
+                    </svg>
+                    <div className="absolute inset-0 flex flex-col items-center justify-center">
+                      <span
+                        className="label-precision text-4xl font-black"
+                        style={{ color: scoreColor }}
+                      >
+                        {score}
+                      </span>
+                      <span
+                        className="label-precision text-[10px] uppercase tracking-widest"
+                        style={{ color: "var(--color-on-surface-variant)" }}
+                      >
+                        Score
+                      </span>
+                    </div>
+                  </div>
 
-            {/* Stat cards — pulled from topJob */}
-            <div className="grid grid-cols-2 gap-4 mb-6">
-              {[
-                {
-                  label:  "Avg Salary",
-                  value:  `$${Math.round(topJob.demandScore * 1.3)}k`,
-                  accent: "var(--color-primary)",
-                },
-                {
-                  label:  "Growth Rate",
-                  value:  `+${Math.round(topJob.demandScore * 0.4)}%`,
-                  accent: "var(--color-secondary)",
-                },
-                {
-                  label:  "Demand Score",
-                  value:  `${topJob.demandScore}/100`,
-                  accent: "var(--color-tertiary)",
-                },
-                {
-                  label:  "Market Trend",
-                  value:  topJob.trend.charAt(0).toUpperCase() + topJob.trend.slice(1),
-                  accent: "var(--color-on-surface-variant)",
-                },
-              ].map((stat) => (
-                <div
-                  key={stat.label}
-                  className="rounded-xl p-4"
-                  style={{
-                    background: "var(--color-surface-container)",
-                    borderLeft: `4px solid ${stat.accent}`,
-                  }}
-                >
-                  <p
-                    className="label-precision text-[10px] uppercase tracking-widest mb-2"
-                    style={{ color: "var(--color-on-surface-variant)" }}
-                  >
-                    {stat.label}
-                  </p>
-                  <p
-                    className="label-precision text-2xl font-black"
+                  <div className="text-center">
+                    <p
+                      className="headline text-lg font-bold"
+                      style={{ color: "var(--color-on-surface)" }}
+                    >
+                      {scoreLabel}
+                    </p>
+                    <TrendBadge trend={topJob.trend as "rising" | "declining" | "stable"} sizes="sm" />
+                  </div>
+                </div>
+
+                {/* Right content */}
+                <div className="md:col-span-9">
+                  <h3
+                    className="headline text-2xl font-bold mb-6"
                     style={{ color: "var(--color-on-surface)" }}
                   >
-                    {stat.value}
-                  </p>
-                </div>
-              ))}
-            </div>
+                    {topJob.title} — full breakdown
+                  </h3>
 
-            {/* Score bars — derived from demand score */}
-            <div className="space-y-4">
-              {[
-                {
-                  label: "Growth potential",
-                  score: Math.min(Math.round(topJob.demandScore * 1.05), 100),
-                  color: "var(--color-primary)",
-                },
-                {
-                  label: "Job availability",
-                  score: Math.round(topJob.demandScore * 0.75),
-                  color: "var(--color-secondary)",
-                },
-                {
-                  label: "Salary premium",
-                  score: Math.round(topJob.demandScore * 0.95),
-                  color: "var(--color-tertiary)",
-                },
-                {
-                  label: "Remote feasibility",
-                  score: Math.round(topJob.demandScore * 0.80),
-                  color: "var(--color-on-surface-variant)",
-                },
-              ].map((bar) => (
-                <div key={bar.label} className="flex items-center gap-4">
-                  <span
-                    className="text-sm w-36 flex-shrink-0"
-                    style={{ color: "var(--color-on-surface-variant)" }}
-                  >
-                    {bar.label}
-                  </span>
-                  <div
-                    className="flex-1 h-1.5 rounded-full overflow-hidden"
-                    style={{ background: "var(--color-surface-container-high)" }}
-                  >
-                    <div
-                      className="h-full rounded-full transition-all duration-700"
-                      style={{
-                        width:      `${bar.score}%`,
-                        background: bar.color,
-                      }}
-                    />
+                  {/* Stat cards */}
+                  <div className="grid grid-cols-2 gap-4 mb-6">
+                    {[
+                      {
+                        label: "Avg Salary",
+                        value: `$${Math.round(topJob.demandScore * 1.3)}k`,
+                        accent: "var(--color-primary)",
+                      },
+                      {
+                        label: "Growth Rate",
+                        value: `+${Math.round(topJob.demandScore * 0.4)}%`,
+                        accent: "var(--color-secondary)",
+                      },
+                      {
+                        label: "Demand Score",
+                        value: `${topJob.demandScore}/100`,
+                        accent: "var(--color-tertiary)",
+                      },
+                      {
+                        label: "Market Trend",
+                        value: topJob.trend.charAt(0).toUpperCase() + topJob.trend.slice(1),
+                        accent: "var(--color-on-surface-variant)",
+                      },
+                    ].map((stat) => (
+                      <div
+                        key={stat.label}
+                        className="rounded-xl p-4"
+                        style={{
+                          background: "var(--color-surface-container)",
+                          borderLeft: `4px solid ${stat.accent}`,
+                        }}
+                      >
+                        <p
+                          className="label-precision text-[10px] uppercase tracking-widest mb-2"
+                          style={{ color: "var(--color-on-surface-variant)" }}
+                        >
+                          {stat.label}
+                        </p>
+                        <p
+                          className="label-precision text-2xl font-black"
+                          style={{ color: "var(--color-on-surface)" }}
+                        >
+                          {stat.value}
+                        </p>
+                      </div>
+                    ))}
                   </div>
-                  <span
-                    className="label-precision text-sm font-bold w-8 text-right"
-                    style={{ color: bar.color }}
+
+                  {/* Animated Score Bars */}
+                  <div className="space-y-4">
+                    {[
+                      {
+                        label: "Growth potential",
+                        score: Math.min(Math.round(topJob.demandScore * 1.05), 100),
+                        color: "var(--color-primary)",
+                      },
+                      {
+                        label: "Job availability",
+                        score: Math.round(topJob.demandScore * 0.75),
+                        color: "var(--color-secondary)",
+                      },
+                      {
+                        label: "Salary premium",
+                        score: Math.round(topJob.demandScore * 0.95),
+                        color: "var(--color-tertiary)",
+                      },
+                      {
+                        label: "Remote feasibility",
+                        score: Math.round(topJob.demandScore * 0.80),
+                        color: "var(--color-on-surface-variant)",
+                      },
+                    ].map((bar) => (
+                      <div key={bar.label} className="flex items-center gap-4">
+                        <span
+                          className="text-sm w-36 flex-shrink-0"
+                          style={{ color: "var(--color-on-surface-variant)" }}
+                        >
+                          {bar.label}
+                        </span>
+                        <div
+                          className="flex-1 h-1.5 rounded-full overflow-hidden"
+                          style={{ background: "var(--color-surface-container-high)" }}
+                        >
+                          <motion.div
+                            initial={{ width: 0 }}
+                            whileInView={{ width: `${bar.score}%` }}
+                            viewport={{ once: true }}
+                            transition={{ duration: 1, ease: "easeOut" }}
+                            className="h-full rounded-full"
+                            style={{ background: bar.color }}
+                          />
+                        </div>
+                        <span
+                          className="label-precision text-sm font-bold w-8 text-right"
+                          style={{ color: bar.color }}
+                        >
+                          {bar.score}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+
+                  <button
+                    onClick={() => search(topJob.category)}
+                    disabled={loading}
+                    className="mt-6 flex items-center gap-2 text-sm font-bold transition-all"
+                    style={{ color: scoreColor }}
                   >
-                    {bar.score}
-                  </span>
+                    Analyze {topJob.title} in full detail →
+                  </button>
                 </div>
-              ))}
+              </div>
             </div>
+          </motion.section>
+        );
+      })()}
 
-            {/* Search CTA */}
-            <button
-              onClick={() => search(topJob.category)}
-              disabled={loading}
-              className="mt-6 flex items-center gap-2 text-sm font-bold transition-all"
-              style={{ color: scoreColor }}
-            >
-              Analyze {topJob.title} in full detail →
-            </button>
-
-          </div>
-        </div>
-      </div>
-    </section>
-  );
-})()}
+      {/* ── TOP PERFORMERS GRID (Staggered Scroll Reveal) ────────── */}
       <section className="max-w-screen-xl mx-auto px-6 py-20">
         <div className="flex items-center justify-between mb-10">
           <div>
@@ -501,23 +561,35 @@ const Home = () => {
         )}
 
         {analytics.data && (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <motion.div 
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.1 }}
+            variants={staggerContainer}
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+          >
             {analytics.data.topDemandJobs?.map((job, index) => (
-              <JobCard
-                key={index}
-                title={job.title}
-                demandScore={job.demandScore}
-                category={job.category}
-                topSkills={[]}
-                trend={job.trend as "rising" | "declining" | "stable"}
-              />
+              <motion.div key={index} variants={fadeInUp}>
+                <JobCard
+                  title={job.title}
+                  demandScore={job.demandScore}
+                  category={job.category}
+                  topSkills={[]}
+                  trend={job.trend as "rising" | "declining" | "stable"}
+                />
+              </motion.div>
             ))}
-          </div>
+          </motion.div>
         )}
       </section>
 
+      {/* ── TRENDING SEARCHES ──────────────────────────────────── */}
       {analytics.data && analytics.data.trendingSearches?.length > 0 && (
-        <section
+        <motion.section
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.2 }}
+          variants={fadeInUp}
           className="py-16"
           style={{ background: "var(--color-surface-container-low)" }}
         >
@@ -543,10 +615,18 @@ const Home = () => {
                 {analytics.data.totalSearches} searches
               </span>
             </div>
-            <div className="flex flex-wrap gap-3">
+            
+            <motion.div 
+              variants={staggerContainer}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true }}
+              className="flex flex-wrap gap-3"
+            >
               {analytics.data.trendingSearches.map((item, idx) => (
-                <button
+                <motion.button
                   key={idx}
+                  variants={fadeInUp}
                   onClick={() => search(item.title)}
                   disabled={loading}
                   className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-medium transition-all duration-200"
@@ -581,19 +661,23 @@ const Home = () => {
                   >
                     {item.searchCount}
                   </span>
-                </button>
+                </motion.button>
               ))}
-            </div>
+            </motion.div>
           </div>
-        </section>
+        </motion.section>
       )}
 
+      {/* ── FOOTER CTA (Scale In on Scroll) ────────────────────── */}
       <section className="max-w-screen-xl mx-auto px-6 pb-20 mt-5">
-        <div
+        <motion.div
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.3 }}
+          variants={scaleIn}
           className="rounded-3xl p-12 md:p-16 text-center relative overflow-hidden"
           style={{ background: "var(--color-surface-container)" }}
         >
-          {/* Glow */}
           <div
             className="absolute inset-0 pointer-events-none"
             style={{
@@ -637,7 +721,7 @@ const Home = () => {
               Compare two careers
             </button>
           </div>
-        </div>
+        </motion.div>
       </section>
     </div>
   );

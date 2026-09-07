@@ -6,6 +6,7 @@ export interface IUser extends Document {
   name: string;
   email: string;
   password: string;
+   role:"user" | "admin"; 
   searchHistory: Types.ObjectId[];
   createdAt: Date;
   updatedAt: Date;

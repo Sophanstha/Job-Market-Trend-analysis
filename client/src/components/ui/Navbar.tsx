@@ -1,11 +1,19 @@
-import React, { useState } from "react";
+import { useState } from "react";
+
+import { Link, useNavigate } from "react-router-dom";
+import {
+  FiLogOut,
+  FiMenu,
+  FiSearch,
+  FiShield,
+  FiUser,
+  FiX,
+} from "react-icons/fi";
 import { useAppDispatch, useAppSelector } from "../../store/hook";
 import { UseSearch } from "../../hooks/useSearch";
-import { Link, useNavigate } from "react-router-dom";
-import { FiLogOut, FiMenu, FiSearch, FiUser, FiX } from "react-icons/fi";
 import { logout } from "../../store/slices/AuthSlice";
-// import { Label } from "recharts";
-
+// import { logout } from "../../store/slices/authSlice";
+ 
 const Navbar = () => {
   const dispatch = useAppDispatch();
   const { user } = useAppSelector((v) => v.auth);
@@ -13,15 +21,15 @@ const Navbar = () => {
   const navigate = useNavigate();
   const [query, setQuery] = useState("");
   const [menu, setmenu] = useState(false);
-
+ 
   const navLinks = [
     { label: "Home", to: "/" },
     { label: "Compare", to: "/compare" },
     { label: "Analytics", to: "/analytics" },
     { label: "History", to: "/history" },
-    { label: "Resume Analyis", to: "/resume" },
+    { label: "Resume Analysis", to: "/resume" },
   ];
-
+ 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
     if (!query.trim()) return;
@@ -29,12 +37,12 @@ const Navbar = () => {
     setQuery("");
     setmenu(false);
   };
-
+ 
   const handlelogout = () => {
     dispatch(logout());
     navigate("/login");
   };
-
+ 
   return (
     <header
       className="sticky top-0 z-50"
@@ -52,8 +60,8 @@ const Navbar = () => {
         >
           Trend<span style={{ color: "var(--color-primary)" }}>Architect</span>
         </Link>
-
-        {/* desktop link */}
+ 
+        {/* desktop links */}
         <div className="hidden md:flex items-center gap-8">
           {navLinks.map((link) => (
             <Link
@@ -72,7 +80,26 @@ const Navbar = () => {
               {link.label}
             </Link>
           ))}
+          {/* Admin link — desktop, only visible to admins */}
+          {user?.role === "admin" && (
+            <Link
+              to="/Admin"
+              className="flex items-center gap-1.5 text-sm font-medium transition-colors"
+              style={{ color: "var(--color-on-surface-variant)" }}
+              onMouseEnter={(e) =>
+                ((e.currentTarget as HTMLElement).style.color = "var(--color-primary)")
+              }
+              onMouseLeave={(e) =>
+                ((e.currentTarget as HTMLElement).style.color =
+                  "var(--color-on-surface-variant)")
+              }
+            >
+              <FiShield size={14} />
+              Admin
+            </Link>
+          )}
         </div>
+ 
         {/* Desktop search */}
         <form
           onSubmit={handleSearch}
@@ -95,64 +122,64 @@ const Navbar = () => {
             }}
           />
         </form>
-        {/* Disktop auth */}
-        {
-          <div className="hidden md:flex items-center gap-3">
-            {user ? (
-              <div className="flex items-center gap-4">
-                <div
-                  className="flex items-center gap-2 text-sm"
-                  style={{ color: "var(--color-on-surface-variant)" }}
-                >
-                  <FiUser size={14} />
-                  <span>
-                    Hi,{" "}
-                    <span
-                      className="font-medium"
-                      style={{ color: "var(--color-on-surface)" }}
-                    >
-                      {user.name.split(" ")[0]}
-                    </span>
+ 
+        {/* Desktop auth */}
+        <div className="hidden md:flex items-center gap-3">
+          {user ? (
+            <div className="flex items-center gap-4">
+              <div
+                className="flex items-center gap-2 text-sm"
+                style={{ color: "var(--color-on-surface-variant)" }}
+              >
+                <FiUser size={14} />
+                <span>
+                  Hi,{" "}
+                  <span
+                    className="font-medium"
+                    style={{ color: "var(--color-on-surface)" }}
+                  >
+                    {user.name.split(" ")[0]}
                   </span>
-                </div>
-                <button
-                  onClick={handlelogout}
-                  className="flex items-center gap-1.5 text-sm transition-colors"
-                  style={{ color: "var(--color-on-surface-variant)" }}
-                  onMouseEnter={(e) =>
-                    ((e.currentTarget as HTMLElement).style.color =
-                      "var(--color-error)")
-                  }
-                  onMouseLeave={(e) =>
-                    ((e.currentTarget as HTMLElement).style.color =
-                      "var(--color-on-surface-variant)")
-                  }
-                >
-                  <FiLogOut size={14} />
-                  Logout
-                </button>
+                </span>
               </div>
-            ) : (
-              <div className="flex items-center gap-3">
-                <Link
-                  to="/login"
-                  className="text-sm transition-colors"
-                  style={{ color: "var(--color-on-surface-variant)" }}
-                >
-                  Login
-                </Link>
-                <Link
-                  to="/register"
-                  className="px-4 py-2 rounded-lg text-sm font-bold transition-all active:scale-95 hero-gradient"
-                  style={{ color: "var(--color-on-primary-fixed)" }}
-                >
-                  Register
-                </Link>
-              </div>
-            )}
-          </div>
-        }
-        {/* mobile toogle */}
+              <button
+                onClick={handlelogout}
+                className="flex items-center gap-1.5 text-sm transition-colors"
+                style={{ color: "var(--color-on-surface-variant)" }}
+                onMouseEnter={(e) =>
+                  ((e.currentTarget as HTMLElement).style.color =
+                    "var(--color-error)")
+                }
+                onMouseLeave={(e) =>
+                  ((e.currentTarget as HTMLElement).style.color =
+                    "var(--color-on-surface-variant)")
+                }
+              >
+                <FiLogOut size={14} />
+                Logout
+              </button>
+            </div>
+          ) : (
+            <div className="flex items-center gap-3">
+              <Link
+                to="/login"
+                className="text-sm transition-colors"
+                style={{ color: "var(--color-on-surface-variant)" }}
+              >
+                Login
+              </Link>
+              <Link
+                to="/register"
+                className="px-4 py-2 rounded-lg text-sm font-bold transition-all active:scale-95 hero-gradient"
+                style={{ color: "var(--color-on-primary-fixed)" }}
+              >
+                Register
+              </Link>
+            </div>
+          )}
+        </div>
+ 
+        {/* mobile toggle */}
         <button
           onClick={() => setmenu(!menu)}
           className="md:hidden p-1 transition-colors"
@@ -161,6 +188,7 @@ const Navbar = () => {
           {menu ? <FiX size={22} /> : <FiMenu size={22} />}
         </button>
       </nav>
+ 
       {/* mobile menu */}
       {menu && (
         <div
@@ -188,7 +216,8 @@ const Navbar = () => {
               }}
             />
           </form>
-          {/* mobile menu */}
+ 
+          {/* mobile links */}
           {navLinks.map((link) => (
             <Link
               key={link.to}
@@ -200,7 +229,20 @@ const Navbar = () => {
               {link.label}
             </Link>
           ))}
-
+ 
+          {/* Admin link — mobile, only visible to admins */}
+          {user?.role === "admin" && (
+            <Link
+              to="/admin"
+              onClick={() => setmenu(false)}
+              className="flex items-center gap-1.5 text-sm py-1"
+              style={{ color: "var(--color-on-surface-variant)" }}
+            >
+              <FiShield size={14} />
+              Admin
+            </Link>
+          )}
+ 
           <div
             className="pt-3 flex gap-3"
             style={{ borderTop: "1px solid rgba(70, 69, 84, 0.2)" }}
@@ -212,7 +254,7 @@ const Navbar = () => {
                   style={{ color: "var(--color-on-surface-variant)" }}
                 >
                   <FiUser size={13} />
-                  {user?.name.split(" ")[0]}
+                  {user.name.split(" ")[0]}
                 </span>
                 <button
                   onClick={handlelogout}
@@ -249,5 +291,5 @@ const Navbar = () => {
     </header>
   );
 };
-
+ 
 export default Navbar;

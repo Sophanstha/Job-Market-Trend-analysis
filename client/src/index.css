@@ -1,51 +1,51 @@
 @import "tailwindcss";
 
 @theme {
-  /* ── Graphite scale ──────────────────────────────────────── */
-  --color-background:                #111214;
-  --color-surface:                   #1C1C1E;
-  --color-surface-container-lowest:  #111214;
-  --color-surface-container-low:     #1C1C1E;
-  --color-surface-container:         #2C2C2E;
-  --color-surface-container-high:    #3A3A3C;
-  --color-surface-container-highest: #48484A;
-  --color-surface-bright:            #3A3A3C;
-  --color-surface-variant:           #2C2C2E;
+  /* ── Obsidian & Mint-Amber Scale ─────────────────────────── */
+  --color-background:                 #0F1115; /* Deep rich obsidian background */
+  --color-surface:                    #16181D; /* Primary container surface */
+  --color-surface-container-lowest:   #0B0C0E;
+  --color-surface-container-low:      #121418;
+  --color-surface-container:          #1A1C23; /* Elevated cards */
+  --color-surface-container-high:     #242730; /* Input fields & hover states */
+  --color-surface-container-highest:  #2E323D;
+  --color-surface-bright:             #383D4A;
+  --color-surface-variant:            #22252E;
 
-  /* ── Text ────────────────────────────────────────────────── */
-  --color-on-background:             #F2F2F7;
-  --color-on-surface:                #F2F2F7;
-  --color-on-surface-variant:        #8E8E93;
+  /* ── Text Hierarchy ──────────────────────────────────────── */
+  --color-on-background:              #F0F2F5; /* Crisp off-white body text */
+  --color-on-surface:                 #F0F2F5;
+  --color-on-surface-variant:         #8C94A0; /* Muted slate secondary text */
 
-  /* ── Borders ─────────────────────────────────────────────── */
-  --color-outline:                   #3A3A3C;
-  --color-outline-variant:           #2C2C2E;
+  /* ── Borders & Outlines ──────────────────────────────────── */
+  --color-outline:                    #2A2E39;
+  --color-outline-variant:            #1E2129;
 
-  /* ── Primary — Cyan ──────────────────────────────────────── */
-  --color-primary:                   #32D9FA;
-  --color-primary-container:         #001F2A;
-  --color-on-primary:                #111214;
-  --color-on-primary-fixed:          #111214;
+  /* ── Primary — Electric Mint Sage (Tactile UI Styleguide) ─── */
+  --color-primary:                    #32E0A1;
+  --color-primary-container:          #0D2B20;
+  --color-on-primary:                 #081711;
+  --color-on-primary-fixed:           #081711;
 
-  /* ── Secondary — Green ───────────────────────────────────── */
-  --color-secondary:                 #30D158;
-  --color-secondary-container:       #9debad;
-  --color-on-secondary:              #111214;
-  --color-on-secondary-fixed:        #111214;
+  /* ── Secondary — Sunset Coral (Dashboard Warmth) ─────────── */
+  --color-secondary:                  #FF6B8B;
+  --color-secondary-container:        #33131B;
+  --color-on-secondary:               #FFFFFF;
+  --color-on-secondary-fixed:         #FFFFFF;
 
-  /* ── Tertiary — Amber ────────────────────────────────────── */
-  --color-tertiary:                  #FF9F0A;
-  --color-tertiary-container:        #1F1000;
-  --color-on-tertiary:               #111214;
-  --color-on-tertiary-fixed:         #111214;
+  /* ── Tertiary — Golden Amber (Mindora Balance) ───────────── */
+  --color-tertiary:                   #FFB84D;
+  --color-tertiary-container:         #33220A;
+  --color-on-tertiary:                #0F1115;
+  --color-on-tertiary-fixed:          #0F1115;
 
-  /* ── Error — Red ─────────────────────────────────────────── */
-  --color-error:                     #FF453A;
-  --color-error-container:           #1F0000;
-  --color-on-error:                  #111214;
-  --color-on-error-container:        #FF453A;
+  /* ── Error — Crimson Rose ────────────────────────────────── */
+  --color-error:                      #FF5266;
+  --color-error-container:            #331014;
+  --color-on-error:                   #FFFFFF;
+  --color-on-error-container:         #FF5266;
 
-  /* ── Fonts ───────────────────────────────────────────────── */
+  /* ── Typography Scale ────────────────────────────────────── */
   --font-headline: "Manrope",       sans-serif;
   --font-body:     "Inter",         sans-serif;
   --font-label:    "Space Grotesk", sans-serif;
@@ -53,8 +53,8 @@
 
 @layer base {
   html {
-    color-scheme:     dark;
-    background-color: #111214;
+    color-scheme:    dark;
+    background-color: #0F1115;
   }
   body {
     background-color: var(--color-background);
@@ -63,57 +63,63 @@
   }
   * { box-sizing: border-box; }
   ::selection {
-    background: rgba(50, 217, 250, 0.2);
-    color:      #F2F2F7;
+    background: rgba(50, 224, 161, 0.25);
+    color:      #F0F2F5;
   }
-  ::-webkit-scrollbar       { width: 5px; }
-  ::-webkit-scrollbar-track { background: #111214; }
+  ::-webkit-scrollbar       { width: 6px; }
+  ::-webkit-scrollbar-track { background: #0F1115; }
   ::-webkit-scrollbar-thumb {
-    background:    #3A3A3C;
-    border-radius: 3px;
+    background:    #242730;
+    border-radius: 9999px;
   }
-  ::-webkit-scrollbar-thumb:hover { background: #48484A; }
+  ::-webkit-scrollbar-thumb:hover { background: #383D4A; }
 }
 
 @layer utilities {
   .label-precision { font-family: var(--font-label); }
   .headline        { font-family: var(--font-headline); }
 
+  /* Tactical Dark Glassmorphism */
   .glass-panel {
-    background:      rgba(28, 28, 30, 0.85);
-    backdrop-filter: blur(20px);
-    border:          1px solid rgba(58, 58, 60, 0.8);
+    background:      rgba(22, 24, 29, 0.85);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border:          1px solid rgba(255, 255, 255, 0.08);
+    box-shadow:      0 12px 32px rgba(0, 0, 0, 0.4);
   }
 
   .hero-gradient {
-    background: #32D9FA;
+    background: linear-gradient(135deg, #1A1C23 0%, #0D2B20 100%);
   }
 
   .text-gradient {
-    background:              linear-gradient(135deg, #32D9FA, #30D158);
+    background:              linear-gradient(135deg, #32E0A1, #FF6B8B);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip:         text;
   }
 
+  /* Micro-Interactions */
   .card-hover {
-    transition: all 0.2s ease;
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
   }
   .card-hover:hover {
-    background:    #2C2C2E !important;
-    border-color:  rgba(50, 217, 250, 0.2) !important;
-    transform:     translateY(-2px);
+    background:   #1A1C23 !important;
+    border-color: rgba(50, 224, 161, 0.4) !important;
+    transform:    translateY(-2px);
+    box-shadow:   0 0 0 1px rgba(50, 224, 161, 0.2),
+                  0 12px 28px rgba(0, 0, 0, 0.5);
   }
 
   .glow-primary {
-    box-shadow: 0 4px 20px rgba(50, 217, 250, 0.15);
+    box-shadow: 0 4px 20px rgba(50, 224, 161, 0.2);
   }
 
   .glow-secondary {
-    box-shadow: 0 4px 20px rgba(48, 209, 88, 0.12);
+    box-shadow: 0 4px 20px rgba(255, 107, 139, 0.2);
   }
 
   .score-bar {
-    background: linear-gradient(90deg, #32D9FA, #30D158);
+    background: linear-gradient(90deg, #32E0A1, #FFB84D, #FF6B8B);
   }
 }

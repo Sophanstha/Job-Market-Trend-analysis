@@ -28,45 +28,55 @@ export const register = async (req: Request, res: Response) => {
     res.status(201).json({
       message: "user register succefully",
       token,
-      user: { id: user._id, name: user.name, email: user.email },
+      user: {
+        id: user._id,
+        name: user.name,
+        email: user.email,
+        role: user.role,
+      },
     });
   } catch (error) {
     res.status(500).json({ message: (error as Error).message });
   }
 };
 
-export const login = async (req:Request , res:Response )=>{
-    const { email, password } = req.body;
-    try {
-      const user = await User.findOne({ email });
-      if (!user || !(await user.matchPassword(password))) {
-        res.status(401).json({ message: "Invalid email or password" });
-        return;
-      }
-      res.json({
-        token: generateJwt(user._id.toString()),
-        user: { id: user._id, name: user.name, email: user.email },
-      });
-    } catch (error) {
-      res.status(500).json({ message: (error as Error).message });
+export const login = async (req: Request, res: Response) => {
+  const { email, password } = req.body;
+  try {
+    const user = await User.findOne({ email });
+    if (!user || !(await user.matchPassword(password))) {
+      res.status(401).json({ message: "Invalid email or password" });
+      return;
     }
-}
+    res.json({
+      token: generateJwt(user._id.toString()),
+      user: {
+        id: user._id,
+        name: user.name,
+        email: user.email,
+        role: user.role,
+      },
+    });
+  } catch (error) {
+    res.status(500).json({ message: (error as Error).message });
+  }
+};
 // getProfile
-export const getProfile = async(req:AuthRequest , res:Response)=>{
-    try {
-        const user = await User.findById(req.user?._id).select("-password")
-        .populate("searchHistory");
-        if(!user){
-            res.status(400).json({
-                message : "user not found or token is expire"
-            })
-        }
-        res.status(200).json({
-            message : "user profile detail",
-            user
-        })
-
-    } catch (error) {
-              res.status(500).json({ message: (error as Error).message });
+export const getProfile = async (req: AuthRequest, res: Response) => {
+  try {
+    const user = await User.findById(req.user?._id)
+      .select("-password")
+      .populate("searchHistory");
+    if (!user) {
+      res.status(400).json({
+        message: "user not found or token is expire",
+      });
     }
-}
+    res.status(200).json({
+      message: "user profile detail",
+      user,
+    });
+  } catch (error) {
+    res.status(500).json({ message: (error as Error).message });
+  }
+};

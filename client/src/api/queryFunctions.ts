@@ -1,5 +1,9 @@
 import axios from "axios";
 import {
+  type AdminSearch,
+  type AdminStats,
+  type AdminTopCategory,
+  type AdminUser,
   type AnalyticsResponse,
   type CompareResponse,
   type HistoryItem,
@@ -54,4 +58,32 @@ export const analyizResumeFn = async (
     },
   );
   return data;
+};
+
+export const fetchAdminStatsFn = async (): Promise<AdminStats> => {
+  const { data } = await api.get<{ success: boolean; stats: AdminStats }>(
+    "/admin/stats"
+  );
+  return data.stats;
+};
+
+export const fetchAdminUsersFn = async (): Promise<AdminUser[]> => {
+  const { data } = await api.get<{ success: boolean; users: AdminUser[] }>(
+    "/admin/users"
+  );
+  return data.users;
+};
+
+export const fetchAdminSearchesFn = async (): Promise<AdminSearch[]> => {
+  const { data } = await api.get<{ success: boolean; searches: AdminSearch[] }>(
+    "/admin/searches"
+  );
+  return data.searches;
+};
+
+export const fetchAdminTopCategoriesFn = async (): Promise<AdminTopCategory[]> => {
+  const { data } = await api.get<{ success: boolean; categories: AdminTopCategory[] }>(
+    "/admin/top-categories"
+  );
+  return data.categories;
 };

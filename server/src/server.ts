@@ -12,6 +12,7 @@ import analysisRouter from "./router/analysis.ts"
 import cors from "cors"
 import rateLimit from "express-rate-limit"
 import resumeRouter from "./router/resumeRouter.ts"
+import Adminrouter from "./router/admin.ts"
 dotenv.config()
 
 const app = express();
@@ -20,6 +21,7 @@ const rateLimiter = rateLimit({
   max: 100, 
   message: "Too many requests, please try again later.",
 })
+
 app.use(rateLimiter)
 app.use(
   cors({
@@ -55,6 +57,7 @@ app.use("/api/search",searchRouter)
 app.use("/api/history",HistoryRouter)
 app.use("/api/analysis",analysisRouter)
 app.use("/api/resume",resumeRouter)
+app.use("/api/admin", Adminrouter);
 
 // Start server
 const PORT = process.env.PORT || 3000;

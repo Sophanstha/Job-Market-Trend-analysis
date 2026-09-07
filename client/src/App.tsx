@@ -11,6 +11,7 @@ import Compare from './components/pages/Compare'
 import Analytics from './components/pages/Analytics'
 import History from './components/pages/History'
 import Resume from './components/pages/Resume'
+import Admin from './components/pages/Admin'
 
 const PrivateRoute = ({children}:{children:React.ReactNode})=>{
   const {token} = useAppSelector((s)=>s.auth)
@@ -46,6 +47,7 @@ const App = () => {
             <Route path="/analytics" element={<Analytics/>} />
             <Route path="/login"     element={<Login/>} />
             <Route path="/register"  element={<Regiter/>} />
+            <Route path="/admin"  element={<Admin/>} />
             <Route
               path="/history"
               element={

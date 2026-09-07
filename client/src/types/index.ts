@@ -32,10 +32,40 @@ export interface DemandResult {
   label: string;
   interpretation: string;
 }
+export interface ForecastPoint {
+  year: number;
+  score: number;
+  confidence: "high" | "medium" | "low";
+}
+
+export interface PresentMarket {
+  data: ForecastPoint[];
+  currentScore: number;
+  currentYear: number;
+  totalGrowth: number;
+  label: string;
+}
+
+export interface FutureMarket {
+  data: ForecastPoint[];
+  score2030: number;
+  peakYear: number;
+  peakScore: number;
+  cagr: number;
+  trend2030: "surging" | "growing" | "plateauing" | "declining";
+  insight: string;
+}
+
+export interface ForecastResult {
+  present: PresentMarket;
+  future: FutureMarket;
+}
+
 export interface SearchResult {
   job: IJobData;
-  demand: DemandResult;
   relevanceScore: number;
+  demand: DemandResult;
+  forecast: ForecastResult;
 }
 export interface Recommendation {
   title: string;
@@ -63,6 +93,7 @@ export interface User {
   id: string;
   name: string;
   email: string;
+  role: "user" | "admin";
 }
 
 export interface AuthResponse {
@@ -169,4 +200,40 @@ export interface ResumeAnalysisResult {
   recommendations: ResumeRecommendation[];
   summary: string;
   resumeScore: number;
+}
+
+export interface AdminStats {
+  totalUsers: number;
+  totalSearches: number;
+  totalCategories: number;
+  newUsersThisWeek: number;
+  searchesThisWeek: number;
+  registeredSearches: number;
+  anonymousSearches: number;
+}
+
+export interface AdminUser {
+  _id: string;
+  name: string;
+  email: string;
+  role: "user" | "admin";
+  createdAt: string;
+  searchCount: number;
+}
+
+export interface AdminSearch {
+  _id: string;
+  query: string;
+  topResult: string;
+  resultsCount: number;
+  createdAt: string;
+  user: {
+    name: string;
+    email: string | null;
+  };
+}
+
+export interface AdminTopCategory {
+  title: string;
+  searchCount: number;
 }
