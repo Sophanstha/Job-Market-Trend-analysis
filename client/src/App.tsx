@@ -12,6 +12,7 @@ import Analytics from './components/pages/Analytics'
 import History from './components/pages/History'
 import Resume from './components/pages/Resume'
 import Admin from './components/pages/Admin'
+import InterviewPrep from './components/pages/InterviewPrep'
 
 const PrivateRoute = ({children}:{children:React.ReactNode})=>{
   const {token} = useAppSelector((s)=>s.auth)
@@ -48,6 +49,7 @@ const App = () => {
             <Route path="/login"     element={<Login/>} />
             <Route path="/register"  element={<Regiter/>} />
             <Route path="/admin"  element={<Admin/>} />
+            <Route path="/interview-prep" element={<InterviewPrep />} />
             <Route
               path="/history"
               element={

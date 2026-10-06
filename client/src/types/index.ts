@@ -237,3 +237,26 @@ export interface AdminTopCategory {
   title: string;
   searchCount: number;
 }
+
+
+export interface SearchTrendPoint {
+  date:  string;
+  count: number;
+}
+
+export interface InterviewQuestion {
+  question: string;
+  hint:     string;
+}
+
+export interface InterviewQuestionSet {
+  technical:    InterviewQuestion[];
+  behavioral:   InterviewQuestion[];
+  roleSpecific: InterviewQuestion[];
+}
+
+export interface InterviewQuestionsResponse {
+  success:      boolean;
+  matchedTitle: string;
+  questions:    InterviewQuestionSet;
+}

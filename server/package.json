@@ -10,7 +10,7 @@
     "start": "node dist/server.js",
     "seed": "ts-node src/script/seed.ts",
     "convert": "ts-node src/script/convertCSV.ts",
-   "make-admin": "tsx src/script/makeAdmin.ts"
+    "make-admin": "tsx src/script/makeAdmin.ts"
   },
   "keywords": [],
   "author": "",
@@ -34,6 +34,7 @@
     "typescript": "^6.0.2"
   },
   "dependencies": {
+    "@anthropic-ai/sdk": "^0.124.0",
     "bcrypt": "^6.0.0",
     "cookie-parser": "^1.4.7",
     "cors": "^2.8.6",

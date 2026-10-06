@@ -15,6 +15,14 @@ const UserSchema = new mongoose.Schema<IUser>(
       lowercase: true,
       trim: true,
     },
+    isDeleted: {
+      type: Boolean,
+      default: false,
+    },
+    deletedAt: {
+      type: Date,
+      default: null,
+    },
     password: {
       type: String,
       required: [true, "Password is required"],
@@ -25,6 +33,7 @@ const UserSchema = new mongoose.Schema<IUser>(
       enum: ["user", "admin"],
       default: "user",
     },
+
     searchHistory: [
       {
         type: Schema.Types.ObjectId,
@@ -32,6 +41,7 @@ const UserSchema = new mongoose.Schema<IUser>(
       },
     ],
   },
+
   { timestamps: true },
 );
 
@@ -45,5 +55,9 @@ UserSchema.methods.matchPassword = async function (
 ): Promise<boolean> {
   return await bcrypt.compare(enteredPassword, this.password);
 };
-const User = mongoose.model<IUser>("user", UserSchema);
+const User =
+  mongoose.models.User || mongoose.model<IUser>("User", UserSchema, "users");
+if (!mongoose.models["user"]) {
+  mongoose.model("user", UserSchema, "users");
+}
 export default User;

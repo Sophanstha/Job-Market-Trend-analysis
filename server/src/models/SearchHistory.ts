@@ -25,6 +25,12 @@ const SearchHistorySchema = new Schema<ISearchHistory>(
   { timestamps: true }
 );
 
-const SearchHistory = mongoose.model<ISearchHistory>('serachHistory',SearchHistorySchema)
+const SearchHistory =
+  mongoose.models.SearchHistory ||
+  mongoose.model<ISearchHistory>("SearchHistory", SearchHistorySchema, "serachhistories");
 
-export default SearchHistory 
+if (!mongoose.models["serachHistory"]) {
+  mongoose.model("serachHistory", SearchHistorySchema, "serachhistories");
+}
+
+export default SearchHistory;

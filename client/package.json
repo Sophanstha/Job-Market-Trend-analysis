@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
-    "make-admin": "tsx src/scripts/makeAdmin.ts",
+    
     "lint": "eslint .",
     "preview": "vite preview"
   },

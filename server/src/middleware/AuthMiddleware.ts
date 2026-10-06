@@ -17,11 +17,11 @@ const protect = async (
     return;
   }
   try {
-    const token = authHeader.split(" ")[1] ;
+    const token = authHeader.split(" ")[1];
     const decoded = jwt.verify(
       token as string,
       process.env.JWT_SECRET as string,
-    ) 
+    );
     if (typeof decoded === "string" || !("id" in decoded)) {
       res.status(401).json({ message: "Invalid token" });
       return;
@@ -33,6 +33,10 @@ const protect = async (
     }
 
     req.user = user;
+    if (req.user?.isDeleted) {
+      res.status(403).json({ message: "This account has been deleted." });
+      return;
+    }
     next();
   } catch (error) {
     res.status(401).json({ message: "Not authorized, token failed" });
@@ -42,7 +46,7 @@ const protect = async (
 export const optionalAuth = async (
   req: AuthRequest,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ): Promise<void> => {
   const authHeader = req.headers.authorization;
 
@@ -54,7 +58,7 @@ export const optionalAuth = async (
     const token = authHeader.split(" ")[1];
     const decoded = jwt.verify(
       token,
-      process.env.JWT_SECRET as string
+      process.env.JWT_SECRET as string,
     ) as JwtPayload;
 
     const user = await User.findById(decoded.id).select("-password");
@@ -66,14 +70,13 @@ export const optionalAuth = async (
   next();
 };
 
-
-export default protect
-// optional Auth 
+export default protect;
+// optional Auth
 
 export const requireAdmin = (
   req: AuthRequest,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ): void => {
   if (req.user?.role !== "admin") {
     res.status(403).json({ message: "Admin access required." });

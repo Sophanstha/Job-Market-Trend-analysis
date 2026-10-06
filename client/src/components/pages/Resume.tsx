@@ -1,4 +1,6 @@
 import React, { useRef, useState } from "react";
+import { useNavigate }     from "react-router-dom";
+import { FiMessageSquare } from "react-icons/fi";
 import { useResumeAnalysis } from "../../hooks/useResumeAnalysis";
 import { UseSearch } from "../../hooks/useSearch";
 import {
@@ -40,6 +42,7 @@ const Resume = () => {
   const fileRef = useRef<HTMLInputElement>(null);
   const { search } = UseSearch();
   const [dragOver, setDragOver] = useState(false);
+  const navigate = useNavigate();
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
 
   const handleSelectFile = (file: File) => {
@@ -116,6 +119,8 @@ const Resume = () => {
         },
       ]
     : [];
+
+    
 
   return (
     <div

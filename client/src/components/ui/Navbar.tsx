@@ -83,7 +83,7 @@ const Navbar = () => {
           {/* Admin link — desktop, only visible to admins */}
           {user?.role === "admin" && (
             <Link
-              to="/Admin"
+              to="/admin"
               className="flex items-center gap-1.5 text-sm font-medium transition-colors"
               style={{ color: "var(--color-on-surface-variant)" }}
               onMouseEnter={(e) =>
@@ -171,7 +171,7 @@ const Navbar = () => {
               <Link
                 to="/register"
                 className="px-4 py-2 rounded-lg text-sm font-bold transition-all active:scale-95 hero-gradient"
-                style={{ color: "var(--color-on-primary-fixed)" }}
+                style={{ color:"white" }}
               >
                 Register
               </Link>
@@ -278,8 +278,8 @@ const Navbar = () => {
                 <Link
                   to="/register"
                   onClick={() => setmenu(false)}
-                  className="flex-1 text-center text-sm py-2 rounded-lg font-bold hero-gradient"
-                  style={{ color: "var(--color-on-primary-fixed)" }}
+                  className="flex-1 text-center text-sm py-2 rounded-lg font-bold text-white "
+                  // style={{ color: "var(--color-on-primary-fixed)" }}
                 >
                   Register
                 </Link>

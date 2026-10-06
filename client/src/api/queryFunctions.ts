@@ -7,8 +7,10 @@ import {
   type AnalyticsResponse,
   type CompareResponse,
   type HistoryItem,
+  type InterviewQuestionsResponse,
   type ResumeAnalysisResult,
   type SearchResponse,
+  type SearchTrendPoint,
 } from "../types";
 import api from "./axios";
 
@@ -86,4 +88,43 @@ export const fetchAdminTopCategoriesFn = async (): Promise<AdminTopCategory[]> =
     "/admin/top-categories"
   );
   return data.categories;
+};
+
+export const fetchSearchTrendFn = async (): Promise<SearchTrendPoint[]> => {
+  const { data } = await api.get<{ success: boolean; series: SearchTrendPoint[] }>(
+    "/admin/search-trend"
+  );
+  return data.series;
+};
+
+export const createUserFn = async (payload: {
+  name: string; email: string; password: string; role: "user" | "admin";
+}) => {
+  const { data } = await api.post("/admin/users", payload);
+  return data;
+};
+
+export const updateUserFn = async (
+  id: string,
+  payload: { name?: string; email?: string; role?: "user" | "admin" }
+) => {
+  const { data } = await api.patch(`/admin/users/${id}`, payload);
+  return data;
+};
+
+export const deleteUserFn = async (id: string) => {
+  const { data } = await api.delete(`/admin/users/${id}`);
+  return data;
+};
+
+export const generateInterviewQuestionsFn = async (payload: {
+  matchedTitle: string;
+  skills:       string[];
+  summary:      string;
+}): Promise<InterviewQuestionsResponse> => {
+  const { data } = await api.post<InterviewQuestionsResponse>(
+    "/interview/generate",
+    payload
+  );
+  return data;
 };

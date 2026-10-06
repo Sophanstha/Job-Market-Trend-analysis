@@ -48,6 +48,10 @@ export const login = async (req: Request, res: Response) => {
       res.status(401).json({ message: "Invalid email or password" });
       return;
     }
+    if (user.isDeleted) {
+      res.status(403).json({ message: "This account has been deleted." });
+      return;
+    }
     res.json({
       token: generateJwt(user._id.toString()),
       user: {
