@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { UseSearch } from "../../hooks/useSearch";
 import { useHistory } from "../../hooks/useHistory";
 import {
@@ -11,7 +11,6 @@ import {
 import LoadingSpinner from "../ui/LoadingSpinner";
 import ErrorMessage from "../ui/ErrorMessage";
 import { Link } from "react-router-dom";
-import { retry } from "@reduxjs/toolkit/query";
 
 const History = () => {
   const { search } = UseSearch();

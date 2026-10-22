@@ -1,54 +1,101 @@
-import { useState }        from "react";
+import { useState } from "react";
 import {
-  FiCode, FiUsers, FiBriefcase, FiChevronDown, FiChevronUp,
+  FiCode,
+  FiUsers,
+  FiBriefcase,
+  FiChevronDown,
+  FiChevronUp,
 } from "react-icons/fi";
 import type { InterviewQuestionSet, InterviewQuestion } from "../../types";
 
 interface Props {
   questions: InterviewQuestionSet;
-  jobTitle:  string;
+  jobTitle: string;
 }
 
 const SECTIONS: {
-  key:   keyof InterviewQuestionSet;
+  key: keyof InterviewQuestionSet;
   label: string;
-  icon:  React.ReactNode;
+  icon: React.ReactNode;
   color: string;
 }[] = [
-  { key: "technical",    label: "Technical Questions",     icon: <FiCode size={16} />,      color: "var(--color-primary)" },
-  { key: "behavioral",   label: "Behavioral Questions",    icon: <FiUsers size={16} />,      color: "var(--color-secondary)" },
-  { key: "roleSpecific", label: "Role-Specific Questions", icon: <FiBriefcase size={16} />,  color: "var(--color-tertiary)" },
+  {
+    key: "technical",
+    label: "Technical Architecture & Implementation",
+    icon: <FiCode size={15} />,
+    color: "var(--color-primary)",
+  },
+  {
+    key: "behavioral",
+    label: "Behavioral & Situational (STAR)",
+    icon: <FiUsers size={15} />,
+    color: "var(--color-secondary)",
+  },
+  {
+    key: "roleSpecific",
+    label: "Domain Strategy & Production Scenarios",
+    icon: <FiBriefcase size={15} />,
+    color: "var(--color-tertiary)",
+  },
 ];
 
-const QuestionCard = ({ q, color }: { q: InterviewQuestion; color: string }) => {
+const QuestionCard = ({
+  q,
+  color,
+  index,
+}: {
+  q: InterviewQuestion;
+  color: string;
+  index: number;
+}) => {
   const [open, setOpen] = useState(false);
 
   return (
     <div
-      className="rounded-xl p-4 cursor-pointer transition-all"
-      style={{ background: "var(--color-surface-container-high)" }}
+      className="rounded-lg p-4 cursor-pointer transition-all border hover:border-[var(--color-outline)]"
+      style={{
+        background: "var(--color-surface-container-low)",
+        borderColor: "var(--color-outline-variant)",
+      }}
       onClick={() => setOpen(!open)}
     >
       <div className="flex items-start justify-between gap-3">
-        <p
-          className="text-sm font-medium leading-relaxed"
-          style={{ color: "var(--color-on-surface)" }}
+        <div className="flex items-start gap-3">
+          <span
+            className="label-precision font-mono text-[11px] font-bold shrink-0 mt-0.5"
+            style={{ color: "var(--color-on-surface-variant)" }}
+          >
+            {String(index + 1).padStart(2, "0")}
+          </span>
+          <p
+            className="text-xs md:text-sm font-medium leading-relaxed"
+            style={{ color: "var(--color-on-surface)" }}
+          >
+            {q.question}
+          </p>
+        </div>
+        <span
+          style={{ color: "var(--color-on-surface-variant)", flexShrink: 0 }}
+          className="mt-0.5"
         >
-          {q.question}
-        </p>
-        <span style={{ color: "var(--color-on-surface-variant)", flexShrink: 0 }}>
-          {open ? <FiChevronUp size={16} /> : <FiChevronDown size={16} />}
+          {open ? <FiChevronUp size={15} /> : <FiChevronDown size={15} />}
         </span>
       </div>
       {open && (
         <div
-          className="mt-3 pt-3 text-xs leading-relaxed"
+          className="mt-3 pt-3 text-xs leading-relaxed border-t font-mono"
           style={{
-            borderTop: "1px solid var(--color-outline-variant)",
-            color:     color,
+            borderColor: "var(--color-outline-variant)",
+            color: "var(--color-on-surface)",
           }}
         >
-          💡 {q.hint}
+          <span
+            className="label-precision text-[10px] uppercase font-bold tracking-wider block mb-1"
+            style={{ color }}
+          >
+            Evaluation Rubric Focus
+          </span>
+          {q.hint}
         </div>
       )}
     </div>
@@ -58,27 +105,30 @@ const QuestionCard = ({ q, color }: { q: InterviewQuestion; color: string }) => 
 export default function InterviewQuestions({ questions, jobTitle }: Props) {
   return (
     <div
-      className="rounded-2xl p-8"
-      style={{ background: "var(--color-surface-container)" }}
+      className="rounded-xl p-6 md:p-8 border"
+      style={{
+        background: "var(--color-surface)",
+        borderColor: "var(--color-outline)",
+      }}
     >
-      <div className="mb-6">
+      <div className="mb-8 pb-5 border-b border-[var(--color-outline-variant)]">
         <p
-          className="label-precision text-xs font-bold uppercase tracking-widest mb-2"
-          style={{ color: "var(--color-primary)" }}
-        >
-          AI-Generated
-        </p>
-        <h3
-          className="headline text-xl font-bold"
-          style={{ color: "var(--color-on-surface)" }}
-        >
-          Interview Prep — {jobTitle}
-        </h3>
-        <p
-          className="text-sm mt-1"
+          className="label-precision font-mono text-[11px] font-bold uppercase tracking-wider mb-1"
           style={{ color: "var(--color-on-surface-variant)" }}
         >
-          Questions tailored to your resume's actual skills. Click any question to reveal a hint.
+          Question Repository
+        </p>
+        <h3
+          className="headline text-lg font-bold"
+          style={{ color: "var(--color-on-surface)" }}
+        >
+          {jobTitle} — Competency Matrix
+        </h3>
+        <p
+          className="text-xs mt-1"
+          style={{ color: "var(--color-on-surface-variant)" }}
+        >
+          Structured question set indexed by technical depth, communication, and domain ownership.
         </p>
       </div>
 
@@ -89,19 +139,19 @@ export default function InterviewQuestions({ questions, jobTitle }: Props) {
 
           return (
             <div key={section.key}>
-              <div className="flex items-center gap-2 mb-4">
+              <div className="flex items-center gap-2 mb-3">
                 <span style={{ color: section.color }}>{section.icon}</span>
                 <h4
-                  className="headline text-sm font-bold"
+                  className="text-xs font-bold uppercase tracking-wider label-precision font-mono"
                   style={{ color: "var(--color-on-surface)" }}
                 >
                   {section.label}
                 </h4>
                 <span
-                  className="label-precision text-xs px-2 py-0.5 rounded-full"
+                  className="label-precision font-mono text-[10px] px-2 py-0.2 rounded"
                   style={{
                     background: "var(--color-surface-container-high)",
-                    color:      "var(--color-on-surface-variant)",
+                    color: "var(--color-on-surface-variant)",
                   }}
                 >
                   {items.length}
@@ -109,7 +159,12 @@ export default function InterviewQuestions({ questions, jobTitle }: Props) {
               </div>
               <div className="space-y-2">
                 {items.map((q, idx) => (
-                  <QuestionCard key={idx} q={q} color={section.color} />
+                  <QuestionCard
+                    key={idx}
+                    index={idx}
+                    q={q}
+                    color={section.color}
+                  />
                 ))}
               </div>
             </div>

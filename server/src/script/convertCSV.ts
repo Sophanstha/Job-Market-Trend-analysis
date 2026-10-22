@@ -679,9 +679,10 @@ const output = Object.entries(groups)
   .sort((a, b) => b.demandScore - a.demandScore);
 
 // ══════════════════════════════════════════════════════════════
-// STEP 3 — Write JSON
-// ══════════════════════════════════════════════════════════════
-fs.writeFileSync(JSON_PATH, JSON.stringify(output, null, 2));
+fs.writeFileSync(
+  JSON_PATH,
+  `export const jsonData = ${JSON.stringify(output, null, 2)};\n\nexport default jsonData;\n`
+);
 
 console.log(`\n✅ jobData.json written with ${output.length} categories`);
 console.log("\n📊 Final summary:");

@@ -7,16 +7,6 @@ interface SearchState {
   recentQueries: string[];
 }
 
-const loadSearchState = (): SearchState => {
-  try {
-    const saved = localStorage.getItem("searchState");
-    if (saved) return JSON.parse(saved);
-  } catch {}
-  return { data: null, query: "", recentQueries: [] };
-};
-
-
-
 const initialState: SearchState = {
   data: null,
   query: "",

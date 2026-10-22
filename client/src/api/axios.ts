@@ -1,4 +1,3 @@
-import { retry } from "@reduxjs/toolkit/query";
 import axios from "axios";
 
 const api = axios.create({

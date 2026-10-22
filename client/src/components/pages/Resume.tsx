@@ -1,6 +1,6 @@
 import React, { useRef, useState } from "react";
 import { useNavigate }     from "react-router-dom";
-import { FiMessageSquare } from "react-icons/fi";
+import { FiMessageSquare, FiCompass } from "react-icons/fi";
 import { useResumeAnalysis } from "../../hooks/useResumeAnalysis";
 import { UseSearch } from "../../hooks/useSearch";
 import {
@@ -635,15 +635,131 @@ const Resume = () => {
                     {data.summary}
                   </p>
                 </div>
-                <button
-                  className="mt-6 flex items-center gap-2 text-sm font-bold transition-colors"
-                  style={{ color: "var(--color-primary)" }}
-                  onClick={() => search(matched.category)}
-                >
-                  View Full Market Analysis <FiArrowRight size={16} />
-                </button>
+                <div className="mt-6 flex flex-wrap items-center gap-4">
+                  <button
+                    className="flex items-center gap-2 text-sm font-bold transition-colors hover:underline"
+                    style={{ color: "var(--color-primary)" }}
+                    onClick={() => search(matched.category)}
+                  >
+                    View Full Market Analysis <FiArrowRight size={16} />
+                  </button>
+
+                  <button
+                    className="flex items-center gap-2 text-sm font-bold px-4 py-2 rounded-xl text-white transition-all shadow-md hover:opacity-90"
+                    style={{ background: "var(--color-primary)" }}
+                    onClick={() =>
+                      navigate("/interview-prep", {
+                        state: {
+                          matchedTitle: matched.title,
+                          skills: data.extractedSkills,
+                          summary: data.summary,
+                        },
+                      })
+                    }
+                  >
+                    <FiMessageSquare size={16} />
+                    Practice Mock Interview <FiArrowRight size={16} />
+                  </button>
+
+                  <button
+                    className="flex items-center gap-2 text-sm font-bold px-4 py-2 rounded-xl transition-all shadow-md hover:opacity-90"
+                    style={{
+                      background: "rgba(50, 224, 161, 0.15)",
+                      border: "1px solid var(--color-primary)",
+                      color: "var(--color-primary)",
+                    }}
+                    onClick={() =>
+                      navigate("/roadmap", {
+                        state: {
+                          matchedTitle: matched.title,
+                          skills: data.extractedSkills,
+                          skillGaps: data.skillGaps?.map((g) => g.skill) || [],
+                        },
+                      })
+                    }
+                  >
+                    <FiCompass size={16} />
+                    Career Roadmap <FiArrowRight size={16} />
+                  </button>
+                </div>
               </div>
             </div>
+
+            {/* Skill Gaps & Roadmap Action Banner */}
+            {data.skillGaps && data.skillGaps.length > 0 && (
+              <div
+                className="rounded-2xl p-6 flex flex-col md:flex-row items-start md:items-center justify-between gap-6"
+                style={{
+                  background: "var(--color-surface-container)",
+                  border: "1px solid rgba(255, 159, 10, 0.25)",
+                }}
+              >
+                <div className="space-y-2 flex-1">
+                  <div className="flex items-center gap-2">
+                    <span className="w-2.5 h-2.5 rounded-full bg-amber-400 animate-pulse" />
+                    <h3
+                      className="headline text-lg font-bold"
+                      style={{ color: "var(--color-on-surface)" }}
+                    >
+                      Identified Skill Gaps ({data.skillGaps.length})
+                    </h3>
+                  </div>
+                  <p
+                    className="text-xs max-w-xl"
+                    style={{ color: "var(--color-on-surface-variant)" }}
+                  >
+                    Closing these missing capabilities will significantly elevate your market match score for {matched.title}.
+                  </p>
+                  <div className="flex flex-wrap gap-2 pt-2">
+                    {data.skillGaps.map((gap) => (
+                      <span
+                        key={gap.skill}
+                        className="px-2.5 py-1 rounded-lg text-xs font-semibold flex items-center gap-1.5"
+                        style={{
+                          background:
+                            gap.importance === "high"
+                              ? "rgba(255, 69, 58, 0.12)"
+                              : "rgba(255, 159, 10, 0.12)",
+                          color:
+                            gap.importance === "high" ? "#FF453A" : "#FF9F0A",
+                          border: `1px solid ${
+                            gap.importance === "high"
+                              ? "rgba(255, 69, 58, 0.3)"
+                              : "rgba(255, 159, 10, 0.3)"
+                          }`,
+                        }}
+                      >
+                        {gap.skill}
+                        <span className="text-[10px] opacity-75 uppercase">
+                          ({gap.importance})
+                        </span>
+                      </span>
+                    ))}
+                  </div>
+                </div>
+
+                <button
+                  onClick={() =>
+                    navigate("/roadmap", {
+                      state: {
+                        matchedTitle: matched.title,
+                        skills: data.extractedSkills,
+                        skillGaps: data.skillGaps.map((g) => g.skill),
+                      },
+                    })
+                  }
+                  className="flex items-center gap-2 px-5 py-3 rounded-xl text-sm font-bold transition-all whitespace-nowrap active:scale-95 shadow-lg"
+                  style={{
+                    background: "linear-gradient(135deg, #32E0A1 0%, #10B981 100%)",
+                    color: "#0B0F17",
+                  }}
+                >
+                  <FiCompass size={16} />
+                  Bridge Gaps with Roadmap
+                  <FiArrowRight size={14} />
+                </button>
+              </div>
+            )}
 
             {/* Recommendations Section */}
             {data.recommendations && data.recommendations.length > 0 && (

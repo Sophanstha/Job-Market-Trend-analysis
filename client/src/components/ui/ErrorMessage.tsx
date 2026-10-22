@@ -1,4 +1,3 @@
-import React from "react";
 import { FiAlertCircle, FiRefreshCw } from "react-icons/fi";
 interface Props {
   message?: string;

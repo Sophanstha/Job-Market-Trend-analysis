@@ -13,24 +13,13 @@ import History from './components/pages/History'
 import Resume from './components/pages/Resume'
 import Admin from './components/pages/Admin'
 import InterviewPrep from './components/pages/InterviewPrep'
+import Roadmap from './components/pages/Roadmap'
 
 const PrivateRoute = ({children}:{children:React.ReactNode})=>{
   const {token} = useAppSelector((s)=>s.auth)
  return token ? <>{children}</> : <Navigate to={"/login"} replace/>
   
 }
-
-const Placeholder = ({ name }: { name: string }) => (
-  <div className="flex items-center justify-center h-96">
-    <p
-      className="label-precision text-lg"
-      style={{ color: "var(--color-on-surface-variant)" }}
-    >
-      {name} — building next...
-    </p>
-  </div>
-);
-
 
 const App = () => {
   return (
@@ -50,6 +39,7 @@ const App = () => {
             <Route path="/register"  element={<Regiter/>} />
             <Route path="/admin"  element={<Admin/>} />
             <Route path="/interview-prep" element={<InterviewPrep />} />
+            <Route path="/roadmap" element={<Roadmap />} />
             <Route
               path="/history"
               element={

@@ -28,6 +28,8 @@ const Navbar = () => {
     { label: "Analytics", to: "/analytics" },
     { label: "History", to: "/history" },
     { label: "Resume Analysis", to: "/resume" },
+    { label: "Interview Prep", to: "/interview-prep" },
+    { label: "Roadmap", to: "/roadmap" },
   ];
  
   const handleSearch = (e: React.FormEvent) => {
@@ -62,7 +64,7 @@ const Navbar = () => {
         </Link>
  
         {/* desktop links */}
-        <div className="hidden md:flex items-center gap-8">
+        <div className="hidden md:flex items-center gap-4 lg:gap-6">
           {navLinks.map((link) => (
             <Link
               key={link.to}

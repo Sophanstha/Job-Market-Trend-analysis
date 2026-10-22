@@ -71,13 +71,13 @@ export const jsonData = [
       94
     ],
     "years": [
+      2018,
       2019,
       2020,
       2021,
       2022,
       2023,
-      2024,
-      2025
+      2024
     ]
   },
   {
@@ -849,4 +849,6 @@ export const jsonData = [
       2024
     ]
   }
-]
+];
+
+export default jsonData;

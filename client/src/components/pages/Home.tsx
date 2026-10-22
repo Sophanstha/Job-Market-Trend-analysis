@@ -34,7 +34,7 @@ const TOPICS = [
 ];
 
 // Animation Variants
-const fadeInUp = {
+const fadeInUp: any = {
   hidden: { opacity: 0, y: 30 },
   visible: { 
     opacity: 1, 
@@ -43,7 +43,7 @@ const fadeInUp = {
   },
 };
 
-const staggerContainer = {
+const staggerContainer: any = {
   hidden: { opacity: 0 },
   visible: {
     opacity: 1,
@@ -53,7 +53,7 @@ const staggerContainer = {
   },
 };
 
-const scaleIn = {
+const scaleIn: any = {
   hidden: { opacity: 0, scale: 0.9 },
   visible: { 
     opacity: 1, 
@@ -127,11 +127,12 @@ const Home = () => {
           >
             Discover Your{" "}
             <span
-              className="hero-gradient"
               style={{
+                background: "linear-gradient(135deg, #32E0A1 0%, #86EFAC 100%)",
                 WebkitBackgroundClip: "text",
                 WebkitTextFillColor: "transparent",
                 backgroundClip: "text",
+                color: "#32E0A1",
               }}
             >
               Career Demand

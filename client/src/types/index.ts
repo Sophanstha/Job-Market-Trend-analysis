@@ -255,8 +255,116 @@ export interface InterviewQuestionSet {
   roleSpecific: InterviewQuestion[];
 }
 
+export interface GenerateQuestionsPayload {
+  matchedTitle: string;
+  skills?: string[];
+  summary?: string;
+  seniority?: string;
+  customFocus?: string;
+  apiKey?: string;
+}
+
 export interface InterviewQuestionsResponse {
   success:      boolean;
   matchedTitle: string;
+  skills?:      string[];
+  seniority?:   string;
   questions:    InterviewQuestionSet;
 }
+
+export interface AnswerEvaluation {
+  overallScore: number;
+  status: "exceptional" | "strong" | "adequate" | "needs_work";
+  scores: {
+    technicalAccuracy: number;
+    clarityAndCommunication: number;
+    completeness: number;
+  };
+  summary: string;
+  strengths: string[];
+  areasToImprove: string[];
+  idealAnswer: string;
+  followUpQuestion: string;
+}
+
+export interface EvaluateAnswerPayload {
+  jobTitle: string;
+  category: "technical" | "behavioral" | "roleSpecific";
+  question: string;
+  hint: string;
+  userAnswer: string;
+  skills?: string[];
+  seniority?: string;
+  apiKey?: string;
+}
+
+export interface EvaluateAnswerResponse {
+  success: boolean;
+  evaluation: AnswerEvaluation;
+}
+
+export interface InterviewRole {
+  category: string;
+  title: string;
+  topSkills: string[];
+  topRoles: string[];
+  averageSalary: number;
+}
+
+export interface RoadmapResource {
+  title: string;
+  type: "documentation" | "course" | "book" | "github";
+  url?: string;
+  free: boolean;
+}
+
+export interface RoadmapProject {
+  title: string;
+  description: string;
+  keySkills: string[];
+  deliverable: string;
+}
+
+export interface RoadmapChecklistItem {
+  id: string;
+  text: string;
+}
+
+export interface RoadmapPhase {
+  phaseNumber: number;
+  title: string;
+  duration: string;
+  objective: string;
+  topics: string[];
+  projects: RoadmapProject[];
+  resources: RoadmapResource[];
+  milestones: RoadmapChecklistItem[];
+}
+
+export interface CareerRoadmap {
+  roleTitle: string;
+  seniority: string;
+  durationWeeks: number;
+  estimatedSalaryUplift: string;
+  summary: string;
+  prerequisites: string[];
+  phases: RoadmapPhase[];
+  certifications: string[];
+  recommendedPortfolioProjects: string[];
+}
+
+export interface GenerateRoadmapPayload {
+  targetRole: string;
+  currentSkills?: string[];
+  skillGaps?: string[];
+  seniority?: string;
+  timeCommitment?: string;
+  customFocus?: string;
+  apiKey?: string;
+}
+
+export interface GenerateRoadmapResponse {
+  success: boolean;
+  roadmap: CareerRoadmap;
+}
+

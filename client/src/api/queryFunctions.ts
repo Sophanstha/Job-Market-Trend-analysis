@@ -1,4 +1,3 @@
-import axios from "axios";
 import {
   type AdminSearch,
   type AdminStats,
@@ -8,6 +7,12 @@ import {
   type CompareResponse,
   type HistoryItem,
   type InterviewQuestionsResponse,
+  type GenerateQuestionsPayload,
+  type EvaluateAnswerPayload,
+  type EvaluateAnswerResponse,
+  type InterviewRole,
+  type GenerateRoadmapPayload,
+  type GenerateRoadmapResponse,
   type ResumeAnalysisResult,
   type SearchResponse,
   type SearchTrendPoint,
@@ -117,14 +122,43 @@ export const deleteUserFn = async (id: string) => {
   return data;
 };
 
-export const generateInterviewQuestionsFn = async (payload: {
-  matchedTitle: string;
-  skills:       string[];
-  summary:      string;
-}): Promise<InterviewQuestionsResponse> => {
+export const generateInterviewQuestionsFn = async (
+  payload: GenerateQuestionsPayload
+): Promise<InterviewQuestionsResponse> => {
   const { data } = await api.post<InterviewQuestionsResponse>(
     "/interview/generate",
-    payload
+    payload,
+    payload.apiKey ? { headers: { "x-gemini-api-key": payload.apiKey } } : undefined
   );
   return data;
 };
+
+export const evaluateInterviewAnswerFn = async (
+  payload: EvaluateAnswerPayload
+): Promise<EvaluateAnswerResponse> => {
+  const { data } = await api.post<EvaluateAnswerResponse>(
+    "/interview/evaluate",
+    payload,
+    payload.apiKey ? { headers: { "x-gemini-api-key": payload.apiKey } } : undefined
+  );
+  return data;
+};
+
+export const fetchInterviewRolesFn = async (): Promise<InterviewRole[]> => {
+  const { data } = await api.get<{ success: boolean; roles: InterviewRole[] }>(
+    "/interview/roles"
+  );
+  return data.roles;
+};
+
+export const generateCareerRoadmapFn = async (
+  payload: GenerateRoadmapPayload
+): Promise<GenerateRoadmapResponse> => {
+  const { data } = await api.post<GenerateRoadmapResponse>(
+    "/roadmap/generate",
+    payload,
+    payload.apiKey ? { headers: { "x-gemini-api-key": payload.apiKey } } : undefined
+  );
+  return data;
+};
+

@@ -1,7 +1,7 @@
+import type { Response } from "express";
 import JobData from "../models/JobData.model.ts";
 import SearchHistory from "../models/SearchHistory.ts";
 import User from "../models/User..model.ts";
-// import { AuthRequest } from "../type/types";
 import type { AuthRequest } from "../type/types.ts";
 
 // ── GET /api/admin/stats ────────────────────────────────────────

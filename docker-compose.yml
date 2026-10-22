@@ -1,18 +1,28 @@
 services:
 
   frontend:
-    build: ./client
+    build:
+      context: ./client
+      dockerfile: dockerfile
     ports:
       - "5173:5173"
     depends_on:
       - backend
 
   backend:
-    build: ./server
+    build:
+      context: ./server
+      dockerfile: dockerfile
     ports:
       - "5000:5000"
     environment:
+      - PORT=5000
+      - NODE_ENV=production
       - MONGO_URI=mongodb://mongodb:27017/mern_db
+      - JWT_SECRET=${JWT_SECRET:-job_market_trend_jwt_secret_key_2026}
+      - SESSION_SECRET=${SESSION_SECRET:-job_market_trend_session_secret_2026}
+      - CLIENT_URL=${CLIENT_URL:-http://localhost:5173}
+      - GEMINI_API_KEY=${GEMINI_API_KEY}
     depends_on:
       - mongodb
 
