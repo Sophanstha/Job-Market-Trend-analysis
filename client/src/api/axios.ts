@@ -1,9 +1,18 @@
 import axios from "axios";
 
+const rawBaseURL: string =
+  (import.meta.env.VITE_API_BASE_URL as string | undefined) ||
+  "https://job-market-trend-analysis.onrender.com/api";
+
+const cleanBaseURL = rawBaseURL.trim().replace(/\/+$/, "");
+const baseURL = cleanBaseURL.endsWith("/api")
+  ? cleanBaseURL
+  : `${cleanBaseURL}/api`;
+
 const api = axios.create({
-      baseURL: import.meta.env.VITE_API_BASE_URL || "http://localhost:5000/api",
-      headers : {"Content-Type" : "application/json" }
-})
+  baseURL,
+  headers: { "Content-Type": "application/json" },
+});
 
 api.interceptors.request.use((config)=>{
     const token = localStorage.getItem("token");
