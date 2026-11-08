@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, type FormEvent } from "react";
 import { useAnalytics } from "../../hooks/useAnalytics";
 // import { useSearch } from "../../hooks/useSearch";
 import { useAdmin } from "../../hooks/useAdmin";
@@ -19,7 +19,13 @@ import { UseSearch } from "../../hooks/useSearch";
 
 const Analytics = () => {
   const { data, error, isLoading, isError, refetch } = useAnalytics();
-  const { search } = UseSearch();
+  const { search, loading: searching, error: searchError } = UseSearch();
+  const [searchInput, setSearchInput] = useState("");
+
+  const handleSearch = (e: FormEvent) => {
+    e.preventDefault();
+    search(searchInput);
+  };
   const {
     isAdmin,
     stats,
@@ -72,6 +78,51 @@ const Analytics = () => {
           >
             Real-time insights from all user searches and job market data
           </p>
+
+          {/* ── Search ─────────────────────────────────────────── */}
+          <form onSubmit={handleSearch} className="mt-6 max-w-xl">
+            <div className="relative">
+              <FiSearch
+                size={16}
+                className="absolute left-4 top-1/2 -translate-y-1/2 pointer-events-none"
+                style={{ color: "var(--color-on-surface-variant)" }}
+              />
+              <input
+                type="text"
+                value={searchInput}
+                onChange={(e) => setSearchInput(e.target.value)}
+                placeholder="Search a job market, e.g. AI, Cloud, Cybersecurity..."
+                className="w-full pl-11 pr-28 py-3 rounded-xl text-sm outline-none font-medium"
+                style={{
+                  background: "var(--color-surface-container-high)",
+                  color: "var(--color-on-surface)",
+                  border: searchError
+                    ? "1px solid var(--color-error)"
+                    : "1px solid var(--color-outline-variant)",
+                }}
+              />
+              <button
+                type="submit"
+                disabled={!searchInput.trim() || searching}
+                className="absolute right-2 top-1/2 -translate-y-1/2 px-4 py-1.5 rounded-lg text-xs font-bold disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
+                style={{
+                  background: "var(--color-primary)",
+                  color: "var(--color-on-primary)",
+                }}
+              >
+                {searching ? "Searching..." : "Search"}
+              </button>
+            </div>
+            {searchError && (
+              <p
+                className="mt-2 text-sm font-medium"
+                style={{ color: "var(--color-error)" }}
+                role="alert"
+              >
+                {searchError}
+              </p>
+            )}
+          </form>
         </div>
 
         {/* ── Tabs — Admin tab only shows for admins ──────────── */}

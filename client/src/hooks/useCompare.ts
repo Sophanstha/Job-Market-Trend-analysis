@@ -11,6 +11,7 @@ export const useCompare = () => {
     queryFn:   () => compareJobsFn(queryA, queryB),
     enabled:   !!queryA && !!queryB,
     staleTime: 2 * 60 * 1000,
+    retry:     false, // "not found" is a final answer, don't retry
   });
 
   return {

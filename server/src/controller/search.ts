@@ -11,6 +11,11 @@ export const search = async (req: AuthRequest, res: Response) => {
   try {
     const { query } = req.body;
 
+    if (typeof query !== "string" || !query.trim()) {
+      res.status(400).json({ message: "Please enter a search term." });
+      return;
+    }
+
     // 1. Load all jobs from MongoDB
     const allJobs = await JobData.find({});
     if (allJobs.length === 0) {
@@ -24,7 +29,7 @@ export const search = async (req: AuthRequest, res: Response) => {
     const tfidfResults = rankJobsByQuery(query, allJobs);
     if (tfidfResults.length === 0) {
       res.status(404).json({
-        message: "No matching results found for your query.",
+        message: `"${query.trim()}" does not exist in our job database. Try: ai, software, data, cybersecurity, cloud`,
       });
       return;
     }
@@ -111,7 +116,14 @@ export const compare = async (
 
     // ── Search by category OR title (case-insensitive) ────────
     const findJob = async (query: string) => {
-      const q = query.trim().toLowerCase();
+      // Escape regex special chars so random input can't break the query
+      const q = query
+        .trim()
+        .toLowerCase()
+        .replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+
+      // Too short to be a meaningful search (would match almost anything)
+      if (q.length < 2) return null;
 
       // First try exact category match
       const byCategory = await JobData.findOne({
@@ -120,14 +132,16 @@ export const compare = async (
       if (byCategory) return byCategory;
 
       // Then try partial title match
+      // (whole-word match, so "ai" doesn't match "maid" or "main")
+      const wordRegex = `(^|[^a-z0-9])${q}($|[^a-z0-9])`;
       const byTitle = await JobData.findOne({
-        title: { $regex: q, $options: "i" },
+        title: { $regex: wordRegex, $options: "i" },
       });
       if (byTitle) return byTitle;
 
       // Finally try keyword match
       const byKeyword = await JobData.findOne({
-        keywords: { $elemMatch: { $regex: q, $options: "i" } },
+        keywords: { $elemMatch: { $regex: wordRegex, $options: "i" } },
       });
       return byKeyword;
     };
@@ -136,21 +150,22 @@ export const compare = async (
     const jobB = await findJob(b as string);
 
     // ── Detailed not found message ────────────────────────────
+    const suggestions = "ai, software, data, cybersecurity, cloud";
     if (!jobA && !jobB) {
       res.status(404).json({
-        message: `Neither "${a}" nor "${b}" found. Try: ai, software, data, cybersecurity, cloud, healthcare, finance, remote, green, design`,
+        message: `Neither "${a}" nor "${b}" exist in our job database. Try: ${suggestions}`,
       });
       return;
     }
     if (!jobA) {
       res.status(404).json({
-        message: `"${a}" not found. Try: ai, software, data, cybersecurity, cloud`,
+        message: `"${a}" does not exist in our job database. Try: ${suggestions}`,
       });
       return;
     }
     if (!jobB) {
       res.status(404).json({
-        message: `"${b}" not found. Try: ai, software, data, cybersecurity, cloud`,
+        message: `"${b}" does not exist in our job database. Try: ${suggestions}`,
       });
       return;
     }

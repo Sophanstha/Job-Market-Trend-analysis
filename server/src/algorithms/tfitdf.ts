@@ -157,16 +157,27 @@ export const rankJobsByQuery = (
       score += termTF * termIDF;
     });
 
-    // Bonus: exact keyword match in job.keywords array
-    const queryLower = query.toLowerCase();
-    const keywordBonus = job.keywords.some(
-      (kw) => queryLower.includes(kw) || kw.includes(queryTokens[0] || ""),
-    )
+    // A job is only relevant if at least one WHOLE query word really appears
+    // in it. (Substring checks matched junk like "maid" -> category "ai".)
+    const docTokenSet = new Set(docTokens);
+    const hasRealMatch = queryTokens.some((t) => docTokenSet.has(t));
+    if (!hasRealMatch) return { job, score: 0 };
+
+    // Bonus: a keyword (word or phrase) appears in the query as whole words
+    const queryPadded = ` ${queryTokens.join(" ")} `;
+    const keywordBonus = job.keywords.some((kw) => {
+      const kwTokens = tokenize(kw);
+      return (
+        kwTokens.length > 0 && queryPadded.includes(` ${kwTokens.join(" ")} `)
+      );
+    })
       ? 0.3
       : 0;
 
-    // Bonus: category match
-    const categoryBonus = queryLower.includes(job.category) ? 0.5 : 0;
+    // Bonus: category appears as a whole word in the query
+    const categoryBonus = queryTokens.includes(job.category.toLowerCase())
+      ? 0.5
+      : 0;
 
     return {
       job,

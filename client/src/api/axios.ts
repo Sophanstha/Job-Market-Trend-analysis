@@ -36,6 +36,13 @@ api.interceptors.response.use(
       window.location.href = "/login";
     }
 
+    // Surface the server's message (e.g. "No matching results found")
+    // instead of axios' generic "Request failed with status code 404".
+    const serverMessage = error.response?.data?.message;
+    if (typeof serverMessage === "string" && serverMessage.trim()) {
+      error.message = serverMessage;
+    }
+
     return Promise.reject(error);
   }
 )
